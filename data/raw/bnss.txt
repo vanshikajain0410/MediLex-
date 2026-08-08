@@ -1,0 +1,214 @@
+ACT NAME: BHARATIYA NAGARIK SURAKSHA SANHITA 2023 (BNSS)
+ACT NUMBER: 46 OF 2023
+ENACTED: December 2023
+IN FORCE FROM: 1 July 2024
+REPLACES: Code of Criminal Procedure 1973 (CrPC)
+RELEVANCE: Medical, Legal, Medico-Legal Cases, Police Intimation, Inquest, Post-Mortem, Evidence Collection, Trial Procedure
+
+---
+
+SECTION 2: DEFINITIONS
+2(1)(c) "bailable offence" means an offence which is shown as bailable in the First Schedule, or which is made bailable by any other law for the time being in force.
+2(1)(g) "cognizable offence" means an offence for which a police officer may arrest without warrant.
+2(1)(h) "complaint" means any allegation made orally or in writing to a Magistrate.
+2(1)(L) "investigation" includes all proceedings under this Sanhita for collection of evidence conducted by a police officer.
+2(1)(m) "judicial proceedings" includes any proceedings in the course of which evidence is or may be legally taken on oath.
+2(1)(o) "non-cognizable offence" means an offence for which a police officer has no authority to arrest without warrant.
+
+DOCTOR RELEVANCE: All major assault, rape, murder, and dowry death cases are cognizable offences — police can and must act immediately. Doctors must notify police for all medico-legal cases.
+
+---
+
+SECTION 173: FIRST INFORMATION REPORT (FORMERLY CRPC 154)
+(1) Every information relating to the commission of a cognizable offence, if given orally to an officer in charge of a police station, shall be reduced to writing by him or under his direction, and be read over to the informant.
+(2) A copy of the information as recorded shall be given forthwith, free of cost, to the informant.
+(3) Any person aggrieved by a refusal on the part of an officer in charge of a police station to record the information may send the substance of such information, in writing and by post, to the Superintendent of Police or the Commissioner.
+(4) The Zero FIR: A police station shall register an FIR regardless of its territorial jurisdiction and transfer the case to the appropriate police station.
+
+DOCTOR RELEVANCE: If a patient or bystander makes a complaint about assault or cognizable offence at the hospital, police must register FIR. Doctors recording a MLC are not required to file FIR themselves, but must notify police. Zero FIR means any police station must accept FIR — important when the crime occurred in another area.
+
+---
+
+SECTION 194: INQUEST BY POLICE (FORMERLY CRPC 174)
+(1) When the officer in charge of a police station or some other police officer specially empowered by the State Government receives information that a person has committed suicide, or has been killed by another or by an animal or machinery or by an accident, or has died under circumstances raising reasonable suspicion that some other person has committed an offence, he shall immediately give intimation thereof to the nearest Executive Magistrate and shall proceed to the place where the body of such deceased person is, and there, in the presence of two or more respectable inhabitants of the neighbourhood, shall make an investigation and draw up a report of the apparent cause of death describing such wounds, fractures, bruises, and other marks of injury as may be found on the body, and stating in what manner or by what weapon or instrument (if any) such marks appear to have been inflicted.
+
+MANDATORY INQUEST CASES:
+(a) Suicide
+(b) Homicide
+(c) Death in police custody
+(d) Death in judicial custody
+(e) Death by accident
+(f) Death by animal attack or machinery
+(g) Death under suspicious circumstances
+(h) Death of a woman within 7 years of marriage (suspected dowry death)
+(i) Death of a woman involving sexual assault
+
+DOCTOR RELEVANCE: When such deaths occur or are brought to hospital, doctors must preserve the body and evidence, not bathe or clean wounds before police documentation, notify police immediately, and NOT issue a death certificate for unnatural deaths without police/Magistrate permission.
+
+---
+
+SECTION 196: WHEN MAGISTRATE MAY HOLD INQUEST
+When the case is one of suicide by a woman within seven years of marriage, or there is any doubt regarding the cause of death, or the police officer conducting inquest deems it expedient, or the nearest Magistrate requires it, a Magistrate shall hold the inquest.
+
+---
+
+SECTION 348: POWER TO SUMMON PERSONS
+A Magistrate holding an inquest under Section 196 may summon and examine witnesses, and compel the production of any document or thing.
+
+---
+
+SECTION 194 & 196: EXAMINATION OF BODY
+On any inquest, the Magistrate or police officer before whom the inquiry is held may examine the body of the deceased and may, for that purpose, have the body exhumed.
+
+---
+
+SECTION 180: POWER TO EXAMINE PERSONS
+Every such Magistrate or police officer may summon any person whom he thinks may be able to give any information respecting the matter under inquiry, and may examine such person.
+
+---
+
+SECTION 194 & 195: POST-MORTEM (FORMERLY CRPC 174 INTERPRETATION)
+Post-mortem examination must be conducted by a registered medical practitioner (government hospital or authorised private doctor) in all medico-legal deaths.
+
+MANDATORY POST-MORTEM CASES:
+- Any homicide or suspected homicide
+- Suicide deaths
+- Accidents (road, workplace, drowning, fall)
+- Custodial deaths (police, judicial, institutional)
+- Deaths of unknown persons
+- Dowry deaths (death of married woman within 7 years)
+- Deaths under suspicious circumstances
+- Deaths where the attending doctor was not present
+
+DOCTOR RELEVANCE: Private hospitals cannot perform medico-legal post-mortems unless specifically authorised by the State government. Transfer the body to the nearest government mortuary. Do NOT allow relatives to take body before police documentation without Magistrate permission.
+
+---
+
+SECTION 54: IDENTIFICATION OF ACCUSED PERSONS
+Medical officers may be called upon to examine accused persons for identifying features (injuries, bite marks, tattoos, scars) relevant to the investigation.
+
+---
+
+SECTION 52: MEDICAL EXAMINATION OF ACCUSED IN RAPE CASES (FORMERLY CRPC 53A)
+(1) When a person is arrested on a charge of committing an offence of rape or an attempt to commit rape and there are reasonable grounds for believing that an examination of his person will afford evidence as to the commission of such offence, it shall be lawful for a registered medical practitioner, employed in a hospital run by the Government or by a local authority and in the absence of such a practitioner, by any other registered medical practitioner, acting at the request of a police officer not below the rank of sub-inspector, and for any person acting in good faith in his aid and under his direction, to make such an examination of the person arrested as is reasonably necessary to ascertain the facts which may afford such evidence.
+(2) Such examination includes the examination of blood, bloodstains, semen, swabs in case of sexual offences, sputum and sweat, hair samples and fingernail clippings.
+
+DOCTOR RELEVANCE: Examination of accused in rape cases is a legal duty when police bring the accused. Document physical findings including injuries on accused. Collect forensic samples and hand to police under proper chain of custody.
+
+---
+
+SECTION 184: MEDICAL EXAMINATION OF VICTIM OF RAPE (FORMERLY CRPC 164A)
+(1) When a woman is alleged to have been subjected to rape or any other sexual offence, she shall be sent by the police officer to the nearest hospital.
+(2) The registered medical practitioner to whom the woman is sent shall, without delay, examine her and prepare a report.
+(3) The report shall state:
+(a) the name and address of the woman and of the person by whom she was brought;
+(b) the age of the woman;
+(c) a description of material taken from the person of the woman for DNA profiling;
+(d) marks of injury, if any, on the person of the woman;
+(e) general mental condition of the woman;
+(f) other material particulars in reasonable detail.
+(4) The report shall state precisely the reasons for each conclusion arrived at.
+(5) The report shall be immediately forwarded to the investigating officer who shall forward it to the Magistrate.
+(6) Nothing in this section shall be construed as rendering lawful any examination without consent of the woman.
+TWO-FINGER TEST IS BANNED: The Supreme Court of India in Lillu @ Rajesh and Anr vs State of Haryana (2013) and reiterated in 2022 has held that the two-finger test violates dignity and is unscientific. NEVER CONDUCT THIS TEST.
+
+DOCTOR RELEVANCE: This is the statutory authority and procedure for examining rape victims. Follow the format exactly. Consent is mandatory. No internal examination without consent. Issue a copy of the medical report to the victim or her guardian.
+
+---
+
+SECTION 49: SEIZURE OF EVIDENCE FROM PERSON
+A police officer making an arrest may take from the person arrested any offensive weapons carried by him. Similarly, biological samples collected from victims and accused are to be handed to police under chain of custody.
+
+DOCTOR RELEVANCE: All biological evidence (swabs, blood, hair, clothing with stains) must be placed in sealed labelled envelopes and handed to police against signature. Maintain chain of custody documentation.
+
+---
+
+SECTION 44: SEARCH OF PLACE ENTERED BY PERSON SOUGHT
+In executing search warrants, police may require the assistance of a medical officer where the person sought is suspected to be in a medical establishment.
+
+---
+
+SECTION 173(3): COGNIZABLE CASE — PRELIMINARY INQUIRY (NEW IN BNSS)
+In cognizable cases, the police officer may conduct a preliminary inquiry before registering FIR only in matters relating to matrimonial disputes, commercial offences, corruption cases. Sexual offences and offences against women/children: NO preliminary inquiry, FIR is mandatory immediately.
+
+DOCTOR RELEVANCE: If police try to delay FIR in sexual assault or domestic violence cases by calling it preliminary inquiry, doctors can document this and the patient/hospital can complain to Magistrate directly under BNSS 173(3).
+
+---
+
+SECTION 48 BSA: EVIDENCE OF CHARACTER OR PREVIOUS SEXUAL HISTORY INADMISSIBLE
+In cases of rape and allied sexual offences, the character of the victim and previous sexual history are inadmissible as evidence. This is consistent with the Indian Evidence Act prohibition.
+
+DOCTOR RELEVANCE: Medical examination must NOT comment on sexual history or previous sexual experience of the victim. Statement that patient is "used to sexual intercourse" is illegal and inadmissible. Document only current clinical findings.
+
+---
+
+SECTION 530: TRIAL BY AUDIO-VIDEO ELECTRONIC MEANS
+Trials including examination of witnesses may be conducted through video conferencing. Doctors may be required to give evidence via video conference.
+
+DOCTOR RELEVANCE: Prepare for virtual court testimony. Your MLC report, post-mortem report, or forensic examination report will be primary documentary evidence.
+
+---
+
+SECTION 197 - 209 (JURISDICTION): PLACE OF TRIAL
+Offences may be tried where the act was done or where the consequence ensued. In rape cases, offence may be tried where the victim resides.
+
+---
+
+SECTION 283 - 288: SUMMARY TRIALS
+For certain offences punishable with imprisonment up to three years, summary trial procedure may be followed. Doctors may need to give evidence quickly in such cases.
+
+---
+
+SECTION 177 & 193: POLICE OFFICER'S DUTY TO SUBMIT REPORT
+Every police officer investigating a cognizable offence shall, on completion of investigation, submit a report (charge sheet) to the Magistrate. The medical officer's report is a key attachment to this charge sheet.
+
+DOCTOR RELEVANCE: Keep all MLC reports, injury certificates, and post-mortem reports properly archived. Police will require certified copies for the charge sheet.
+
+---
+
+SECTION 183: EVIDENCE RECORDING OF WITNESSES (FORMERLY CRPC 164)
+Any Metropolitan Magistrate or Judicial Magistrate may record any statement or confession made to him in the course of an investigation. Victims of sexual assault may have their statements recorded before a Magistrate without police presence if they choose.
+
+DOCTOR RELEVANCE: Vulnerable victims (sexual assault, trafficking, minors) should be informed of their right to have their statement recorded by a Magistrate.
+
+---
+
+SECTION 35: ARREST WITHOUT WARRANT IN COGNIZABLE CASES
+Any police officer may, without an order from a Magistrate and without a warrant, arrest any person who has been concerned in any cognizable offence.
+
+---
+
+SECTION 51 - 54: MEDICAL EXAMINATION OF ARRESTED PERSON
+(1) When any person is arrested, he shall be examined by a medical officer in the service of Central or State Government, and in case the medical officer is not available, by a registered medical practitioner soon after the arrest is made.
+(2) The medical officer or a registered medical practitioner shall prepare the record of such examination, mentioning therein any injuries or marks of violence upon the person arrested, and the approximate time when such injuries or marks may have been inflicted.
+(3) Where the person arrested is a female, the examination shall be made only by, or under the supervision of, a female medical officer.
+
+DOCTOR RELEVANCE: Examination of newly arrested persons is a mandatory duty. This protects against false claims of custodial torture and also documents genuine pre-arrest injuries. Issue a certificate. If the arrested person is a woman, a female doctor must conduct the examination.
+
+---
+
+SECTION 48: POLICE TO GIVE INFORMATION TO RELATIVES
+When a person is arrested, the police officer shall immediately give information to his/her nominated relative or friend. Doctors treating arrested persons must be aware that police are legally required to inform relatives.
+
+---
+
+SECTION 529: ELECTRONIC RECORDS AS EVIDENCE (NOT SURE)
+Electronic records (hospital CCTV footage, digital MLC entries, electronic signatures on reports) are admissible as evidence under Bharatiya Sakshya Adhiniyam 2023.
+
+DOCTOR RELEVANCE: Maintain digital MLC records with timestamps. CCTV footage of emergency departments showing the state of the patient on arrival may be crucial evidence.
+
+---
+
+BNSS TIMELINES IMPORTANT FOR DOCTORS:
+- FIR to be registered within 24 hours of information: mandatory
+- Investigation to be completed within 60 days for offences punishable with death/life imprisonment
+- Investigation within 90 days otherwise
+- Chargesheet to be filed within 60 or 90 days depending on offence
+- If chargesheet not filed in time, bail may be granted as of right
+- Trial to be completed within 3 years where possible (aspirational)
+- Sexual assault cases: trial to conclude within 2 months of charge framing
+
+DOCTOR RELEVANCE: Doctors must respond to police requests for statements, reports, and court summons promptly. Delays in submitting medical reports delay the entire investigation timeline.
+
+---
+

@@ -1,0 +1,225 @@
+ACT NAME: BHARATIYA NYAYA SANHITA 2023 (BNS)
+ACT NUMBER: 45 OF 2023
+ENACTED: December 2023
+IN FORCE FROM: 1 July 2024
+REPLACES: Indian Penal Code 1860 (IPC)
+RELEVANCE: Medical, Legal, Criminal Law, Medico-Legal Cases, Assault, Sexual Offences, Death Investigation
+
+---
+
+SECTION 2: DEFINITIONS
+ In this Sanhita, unless the context otherwise requires
+2(1) “act” denotes as well a series of acts as a single act.:
+2(6) "death" includes the death of an unborn child who has lived to the point where it was capable of being born alive.
+2(8) "document" means any matter expressed or described upon any substance by means of letters, figures, or marks, or by more than one of those means, intended to be used, or which may be used, as evidence of that matter.
+
+ "grievous hurt" has the meaning assigned to it in section 116.
+
+2(24) "offence" means any act or omission made punishable by this Sanhita.
+
+
+DOCTOR RELEVANCE: Definitions govern what constitutes a cognizable offence requiring MLC documentation.
+
+---
+
+SECTION 3: GENERAL EXPLANATIONS
+Explanation regarding consent: Nothing which is not intended to cause death or grievous hurt, and which is not known by the doer to be likely to cause death or grievous hurt, is an offence by reason of any harm it may cause to a consenting adult.
+
+DOCTOR RELEVANCE: Medical procedures performed with informed consent are protected. Consent of a competent adult patient is a legal shield for medical intervention.
+
+---
+
+SECTION 100: CULPABLE HOMICIDE
+Culpable homicide is the act of causing death:
+(a) with the intention of causing death; or
+(b) with the intention of causing such bodily injury as is likely to cause death; or
+(c) with the knowledge that the act is likely to cause death.
+
+DOCTOR RELEVANCE: When a patient dies following assault or neglect, determination of culpable homicide versus accident governs whether the death is medico-legal. Doctors must document cause of death accurately.
+
+---
+
+SECTION 101: MURDER
+Culpable homicide is murder except in cases of grave and sudden provocation, exceeding the right of private defence, or when a public servant acts in good faith. Punishment: death or imprisonment for life with fine.
+
+DOCTOR RELEVANCE: Doctors issuing death certificates or conducting post-mortems must distinguish natural death from murder-related injury. Failure to document suspicious injuries accurately may constitute suppression of evidence.
+
+---
+
+SECTION 106: CULPABLE HOMICIDE BY NEGLIGENCE (FORMERLY IPC 304A)
+Whoever causes the death of any person by doing any rash or negligent act not amounting to culpable homicide shall be punished with imprisonment which may extend to five years, or with fine, or with both.
+
+DOCTOR RELEVANCE: Medical negligence causing patient death falls under this section. Standard of care documentation is critical. However, bonafide medical treatment done in good faith is excluded.
+
+---
+
+SECTION 116: GRIEVOUS HURT
+The following kinds of hurt only are designated as "grievous":
+(a) Emasculation
+(b) Permanent privation of the sight of either eye
+(c) Permanent privation of the hearing of either ear
+(d) Privation of any member or joint
+(e) Destruction or permanent impairing of the powers of any member or joint
+(f) Permanent disfiguration of the head or face
+(g) Fracture or dislocation of a bone or tooth
+(h) Any hurt which endangers life or which causes the sufferer to be during the space of twenty days in severe bodily pain or unable to follow ordinary pursuits
+
+DOCTOR RELEVANCE: Doctors must classify injuries as "simple" or "grievous" in MLC certificates. This classification directly determines the severity of charges (BNS 115/117 vs 118/122). A fracture always qualifies as grievous hurt.
+
+---
+
+SECTION 114 & 115: HURT AND VOLUNTARILY CAUSING HURT (PUNISHMENT)
+Whoever causes bodily pain, disease or infirmity to any person is said to cause hurt. Punishment for causing hurt: imprisonment up to 1 year or fine up to 10,000 rupees or both. Voluntary hurt: imprisonment up to 3 years or fine up to 20,000 rupees or both.
+
+DOCTOR RELEVANCE: Minor injuries without fracture or lasting impairment are documented as "simple hurt." Still requires MLC registration if patient presents due to assault.
+
+---
+
+SECTION 117: VOLUNTARILY CAUSING GRIEVOUS HURT
+Whoever voluntarily causes grievous hurt shall be punished with imprisonment of either description for a term which may extend to seven years, and shall also be liable to fine.
+
+DOCTOR RELEVANCE: Medical certification of grievous hurt triggers more serious charges. Doctors must carefully document injury nature, mechanism, and time since occurrence.
+
+---
+
+SECTION 118: GRIEVOUS HURT BY DANGEROUS WEAPONS OR MEANS
+Whoever, except in the case provided by BNS 121, voluntarily causes grievous hurt by means of any instrument for shooting, stabbing or cutting, or any instrument which, used as a weapon of offence, is likely to cause death, or by means of fire or any heated substance, or by means of any poison or any corrosive substance, or by means of any explosive substance, or by means of any substance harmful to the human body to inhale, swallow or receive into the blood shall be punished with imprisonment for life, or with imprisonment of either description for a term which may extend to ten years, and shall also be liable to fine.
+
+DOCTOR RELEVANCE: Burns (fire, acid, chemicals), gunshot wounds, stab wounds, and poisoning all fall under this section. MLC must document the nature of weapon or substance used. Acid attack injuries are specifically covered here.
+
+---
+
+SECTION 124: ACID ATTACK (FORMERLY IPC 326A AND 326B)
+(1) Whoever throws or attempts to throw acid on any person or administers or attempts to administer acid to any person with the intention of causing permanent or partial damage or deformity or disfiguration to any part of the body of such person, shall be punished with imprisonment of not less than ten years but which may extend to imprisonment for life, and with fine.
+(2) The fine shall be just and reasonable to meet the medical expenses of the treatment of the victim.
+(3) Any compensation awarded shall be paid to the victim.
+FREE TREATMENT OBLIGATION: No hospital, public or private, shall deny first aid or medical treatment to victims of acid attack.
+
+DOCTOR RELEVANCE: Doctors CANNOT refuse treatment to acid attack victims. First aid is mandatory. Document burn depth, surface area (Rule of Nines), chemical agent if known, and eye/airway involvement. Photograph injuries. Notify police immediately. This is a cognizable offence.
+
+---
+
+SECTION 137 - 142: KIDNAPPING AND ABDUCTION
+Kidnapping from India: conveying any person beyond the limits of India without consent.
+Kidnapping from lawful guardianship: taking or enticing any minor (under 16 for males, under 18 for females) out of keeping of lawful guardian without consent.
+Abduction: forcibly compelling, or by deceitful means inducing, any person to go from any place.
+
+DOCTOR RELEVANCE: When minors present without guardians or with unfamiliar adults, doctors should consider kidnapping/abduction risk. In conjunction with signs of abuse, report to police and Child Welfare Committee.
+
+---
+
+SECTION 97: KIDNAPPING OR ABDUCTING CHILD UNDER TEN
+Whoever kidnaps or abducts any child under the age of ten years with the intention of taking dishonestly any movable property from the person of such child shall be punished with imprisonment of either description for a term which may extend to seven years, and shall also be liable to fine.
+
+---
+
+SECTION 127: WRONGFUL CONFINEMENT
+Whoever wrongfully restrains any person in such a manner as to prevent that person from proceeding beyond certain circumscribing limits, is said wrongfully to confine that person. Punishment: imprisonment up to 1 year or fine up to 5,000 rupees or both.
+
+DOCTOR RELEVANCE: Patients presenting with signs of prolonged confinement (dehydration, muscle wasting, pressure sores, malnutrition) must have these documented. Report to police if criminal confinement is suspected.
+
+---
+
+SECTION 63: RAPE (FORMERLY IPC 375/376)
+A man is said to commit rape if he:
+(a) penetrates his penis into the vagina, mouth, urethra or anus of a woman or makes her to do so with him or any other person;
+(b) inserts any object or part of body into the vagina, urethra or anus of a woman or makes her to do so with him or any other person;
+(c) manipulates any part of the body of a woman so as to cause penetration;
+(d) applies his mouth to the vagina, anus, urethra of a woman or makes her to do so with him or any other person.
+WITHOUT CONSENT is essential. Exceptions: husband and wife not separated (unless wife is under 18).
+
+SECTION 64 - 71 PUNISHMENTS FOR RAPE: rigorous imprisonment not less than ten years, extendable to imprisonment for life, and fine.
+
+Aggravated rape (BNS 65): by police officer, public servant, armed forces personnel, prison staff, hospital staff — minimum 10 years, extendable to life.
+Gang rape (BNS 70): minimum 20 years, extendable to life imprisonment.
+Rape of woman under 16 years (BNS 66): not less than 20 years, may extend to life.
+Rape causing death or persistent vegetative state (BNS 66): not less than 20 years, extendable to death.
+
+DOCTOR RELEVANCE: Conduct two-doctor examination wherever possible. Collect and seal forensic samples (vaginal swabs, blood for DNA, clothing). Do NOT wash or clean injuries before documentation. Issue MLC. Obtain informed consent before examination. Do NOT disclose identity of victim. Emergency contraception and prophylaxis for STIs must be offered. MTP Act assessment required if pregnancy risk exists.
+
+---
+
+SECTION 130 & 129 RESPECTIVELY: ASSAULT AND CRIMINAL FORCE
+Assault: Whoever makes any gesture or preparation intending or knowing it to be likely that such gesture or preparation will cause any person to apprehend that criminal force is about to be used.
+Criminal force: use of force on a person without that person's consent to commit an offence or to cause injury, fear, or annoyance.
+
+---
+
+SECTION 85: HUSBAND'S CRUELTY (FORMERLY IPC 498A)
+Whoever, being the husband or the relative of the husband of a woman, subjects such woman to cruelty shall be punished with imprisonment for a term which may extend to three years and shall also be liable to fine.
+"Cruelty" means:
+(a) any wilful conduct which is of such a nature as to drive the woman to commit suicide or to cause grave injury or danger to life, limb or health (mental or physical);
+(b) harassment of the woman with a view to coercing her or any person related to her to meet any unlawful demand for any property or valuable security.
+
+DOCTOR RELEVANCE: Domestic violence presenting as repeated injuries, burns, fractures, or psychological trauma. Document all injuries, note pattern (old and new), record patient's statement verbatim. Under Protection of Women from Domestic Violence Act 2005, victim may also be referred to Protection Officer.
+
+---
+
+SECTION 80: DOWRY DEATH (FORMERLY IPC 304B)
+Where the death of a woman is caused by any burns or bodily injury or occurs under suspicious circumstances within seven years of marriage, and it is shown that she was subjected to cruelty or harassment in connection with demands for dowry, such death shall be called "dowry death." Punishment: not less than seven years, extendable to life imprisonment.
+
+DOCTOR RELEVANCE: Suspicious deaths of married women within 7 years of marriage must be treated as potential dowry death until proven otherwise. Post-mortem is mandatory. Document burn pattern, note if injuries are consistent with alleged accident. Inquest under BNSS 176 is mandatory.
+
+---
+
+SECTION 77: VOYEURISM (FORMERLY IPC 354C)
+Any man who watches, or captures the image of a woman engaging in a private act in circumstances where she would usually have the expectation of not being observed by the perpetrator or any other person or disseminates such image shall be punished on first conviction with imprisonment of not less than one year but which may extend to three years, and on subsequent conviction with imprisonment of not less than three years but which may extend to seven years with fine.
+
+---
+
+SECTION 351: CRIMINAL INTIMIDATION
+Whoever threatens another with injury to person, reputation, or property with intent to cause alarm or to compel any person to do any act, commits criminal intimidation. Punishment: imprisonment up to two years or fine or both.
+
+---
+
+SECTION 336, 337, 340: FORGERY OF DOCUMENTS (RELEVANT TO MEDICAL RECORDS)
+Whoever commits forgery of any document or electronic record shall be punished with imprisonment up to two years, or with fine, or with both.
+
+DOCTOR RELEVANCE: Falsification of MLC reports, post-mortem reports, or death certificates constitutes forgery under BNS. Doctors must ensure all records are accurate, dated, and signed.
+
+---
+
+SECTION 106: DEATH BY NEGLIGENCE CAUSING ACCIDENT (FORMERLY IPC 304A — ROAD ACCIDENTS)
+Whoever causes the death of any person by doing any rash or negligent act not amounting to culpable homicide, and such act is done by a registered medical practitioner while performing a medical procedure, shall be punished with imprisonment for a term of two years and fine.
+Whoever causes death while driving a vehicle rashly shall be punished with imprisonment up to five years and fine. If the offender flees without reporting to police, imprisonment up to 10 years.
+
+DOCTOR RELEVANCE: Road accident victims are medico-legal cases. Document all injuries systematically. Note time of presentation, patient's condition on arrival, and treatment given. Notify police via MLC. Good Samaritan Law (Motor Vehicles Act 2019) protects bystanders who bring victims to hospital.
+
+---
+
+SECTION 109: ATTEMPT TO MURDER
+Whoever does any act with such intention or knowledge and under such circumstances that if he by that act caused death, he would be guilty of murder, shall be punished with imprisonment of either description for a term which may extend to ten years, and shall also be liable to fine; and if hurt is caused to any person by such act, the offender shall be liable either to imprisonment for life or such punishment as is hereinbefore mentioned.
+
+---
+
+SECTION 351: CRIMINAL INTIMIDATION / THREATS AGAINST DOCTORS (FORMERLY IPC 503)
+Whoever commits the offence of criminal intimidation shall be punished with imprisonment of either description for a term which may extend to two years, or with fine, or with both.
+NOTE: BNS 2023 does not yet have a dedicated provision for violence against healthcare workers; refer to respective state-level Clinical Establishment Acts and the proposed Healthcare Service Personnel and Clinical Establishments (Prohibition of Violence and Damage to Property) Act.
+
+---
+
+SECTION 4: PUNISHMENT OF OFFENCES COMMITTED WITHIN INDIA
+Every person shall be liable to punishment under this Sanhita and not otherwise for every act or omission contrary to the provisions thereof, of which he shall be guilty within India.
+
+---
+
+SECTION 3(5): ACT DONE BY SEVERAL PERSONS IN FURTHERANCE OF COMMON INTENTION
+When a criminal act is done by several persons in furtherance of the common intention of all, each of such persons is liable for that act in the same manner as if it were done by him alone.
+
+DOCTOR RELEVANCE: In group assault cases, all perpetrators bear equal liability. Document number of assailants if known from history.
+
+---
+
+SECTION 111 & 113: ORGANISED CRIME
+Whoever is involved in organised crime — including murder, extortion, kidnapping, contract killing, cybercrime, drug trafficking, human trafficking — committed by a gang, shall be punished with death or imprisonment for life. If no death caused: minimum 5 years, extendable to life.
+
+DOCTOR RELEVANCE: Victims of organised crime (trafficking, forced labour, gang violence) may present at hospitals. Document presentation circumstances carefully and notify police.
+
+---
+
+SECTION 113: TERRORISM (RELEVANT FOR MASS CASUALTY EVENTS)
+Whoever commits a terrorist act shall be punished with death or imprisonment for life if the act results in death; otherwise with imprisonment not less than five years extendable to life.
+Mass casualty events with multiple victims may involve terrorist acts triggering mandatory police notification.
+
+---
+

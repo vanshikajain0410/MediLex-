@@ -1,0 +1,239 @@
+ACT NAME: BHARATIYA SAKSHYA ADHINIYAM 2023 (BSA)
+ACT NUMBER: 47 OF 2023
+ENACTED: December 2023
+IN FORCE FROM: 1 July 2024
+REPLACES: Indian Evidence Act 1872
+RELEVANCE: Medical Evidence, Expert Testimony, MLC Reports, DNA Evidence, Electronic Records, Doctor as Expert Witness, Medical Records as Documents
+
+---
+
+SECTION 2: DEFINITIONS
+Sec. 2(1)(a) "Court" includes all Judges and Magistrates and all persons, except arbitrators, legally authorised to take evidence.
+
+Sec. 2(1)(d) "document" means any matter expressed or described upon any substance by means of letters, figures or marks, or by more than one of those means, intended to be used, or which may be used, as evidence of that matter.
+
+Sec. 2(1)(e) "evidence" means and includes:
+  (i) all statements, including statements given electronically, which the Court permits or requires to be made before it by witnesses, in relation to matters of fact under inquiry — called oral evidence;
+  (ii) all documents including electronic records produced for the inspection of the Court — called documentary evidence.
+
+Sec. 2(1)(f) "fact" Includes anything, state of things, or relation of things, capable of being perceived by the senses, as well as any mental condition of which any person is conscious. 
+
+DOCTOR RELEVANCE: MLC reports, post-mortem reports, injury certificates, laboratory results — all are "documents" under BSA and constitute documentary evidence. Electronic hospital records are explicitly included.
+
+---
+
+SECTION 4: RELEVANCE OF FACTS FORMING PART OF SAME TRANSACTION (RES GESTAE)
+Facts which, though not in issue, are so connected with a fact in issue as to form part of the same transaction, are relevant, whether they occurred at the same time and place or at different times and places.
+
+DOCTOR RELEVANCE: A patient's spontaneous history given in the emergency room immediately after an assault is admissible under this doctrine. Doctors must document what the patient said verbatim, complete with precise timestamps. 
+
+---
+
+SECTION 26(a): STATEMENTS MADE UNDER SPECIAL CIRCUMSTANCES — DYING DECLARATION
+A statement, written or verbal, made by a person as to the cause of their death, or as to any of the circumstances of the transaction which resulted in their death, is relevant in cases in which the cause of that person's death comes into question. Such statements are relevant whether the person who made them was or was not, at the time when they were made, under expectation of death, and whatever may be the nature of the proceedings. 
+
+DYING DECLARATION RULES FOR DOCTORS:
+- The dying declaration is admissible even if the person survives
+- Doctor must certify that the person was fit to make a statement (conscious, oriented to time, person, place)
+- Record word-for-word in the patient's own language
+- Patient must sign or thumbprint the declaration
+- Doctor must countersign with name, qualification, and time
+- If patient cannot speak: may use writing, gesture (eye blinking — yes/no system)
+- Ideally record before a Magistrate, but doctor-recorded dying declaration is valid
+- Do NOT suggest or lead the patient's statement
+
+DOCTOR RELEVANCE: This is one of the most critical duties in medico-legal practice. A properly recorded dying declaration can convict a murderer even without other eyewitness evidence. If a seriously injured or critically ill patient wishes to make a statement about who injured them, call a Magistrate immediately. If Magistrate cannot arrive in time, record it yourself.
+
+---
+
+SECTION 23: HOW MUCH OF INFORMATION RECEIVED FROM ACCUSED MAY BE PROVED
+When any fact is deposed to as discovered in consequence of information received from a person accused of any offence, in the custody of a police officer, so much of such information, whether it amounts to a confession or not, as relates distinctly to the fact thereby discovered, may be proved.
+
+---
+
+SECTION 22: CONFESSION MADE UNDER CIRCUMSTANCES OF THREAT
+A confession made by an accused person is irrelevant in a criminal proceeding if the making of the confession appears to the Court to have been caused by any inducement, threat or promise.
+
+---
+
+SECTION 29: STATEMENTS IN DOCUMENTS FORMING PART OF PUBLIC RECORDS (FORMERLY IEA 35)
+An entry in a public or official book, register, or record, stating a fact in issue or relevant fact, and made by a public servant in the discharge of his official duty is relevant.
+
+DOCTOR RELEVANCE: Government hospital MLC registers, post-mortem registers, and admission-discharge books are public records. Entries made in the course of official duty are admissible without the original doctor necessarily appearing in court. However, private hospital records are business records (see Section 39).
+
+---
+
+SECTION 28: ENTRIES IN BOOKS OF ACCOUNT INCLUDING ELECTRONIC RECORDS (FORMERLY IEA 34)
+Entries in books of account, including those maintained in an electronic form, regularly kept in the course of business, are relevant whenever the question is whether those entries are genuine.
+
+DOCTOR RELEVANCE: Private hospital electronic health records, billing records, and nursing notes are "books of account kept in course of business" and are admissible. Maintain electronic records consistently without gaps or alterations.
+
+---
+
+SECTION 39: EXPERT TESTIMONY (FORMERLY IEA 45)
+When the Court has to form an opinion upon a point of foreign law or of science or art, or as to the identity of handwriting or finger impressions, the opinions upon that point of persons specially skilled in such foreign law, science or art, or in questions as to the identity of handwriting or finger impressions, are relevant facts. Such persons are called experts.
+
+TYPES OF MEDICAL EXPERT WITNESSES:
+- Forensic pathologist (post-mortem, wound description)
+- Clinical specialist (injury nature, treatment given)
+- Psychiatrist (mental fitness, PTSD assessment)
+- Toxicologist (poison identification)
+- DNA expert (forensic biology)
+- Radiologist (fracture dating, injury pattern)
+
+DOCTOR RELEVANCE: Any doctor can be called as an expert witness to testify about their area of specialisation. Your opinion on whether injuries are consistent with alleged mechanism, the time since injury was inflicted, or the cause of death is expert testimony. This opinion is evidence. Always keep a copy of your MLC reports as you will be cross-examined on them.
+
+---
+
+SECTION 51 & 52: FACTS JUDICIALLY NOTICEABLE
+No fact of which the Court will take judicial notice need be proved. Courts take judicial notice of:
+- Acts of Parliament and statutes
+- National and official publications
+- Geographical facts
+- Known scientific principles
+
+DOCTOR RELEVANCE: Standard medical knowledge (e.g., rigor mortis timelines, fracture healing stages) is generally accepted without requiring proof. You need only state your clinical findings; you do not have to prove that medicine works the way it does.
+
+---
+
+SECTION 53: FACTS ADMITTED NEED NOT BE PROVED
+No fact need be proved in any proceeding which the parties thereto or their agents agree to admit at the hearing.
+
+---
+
+SECTION 54 & 55: ORAL EVIDENCE
+All facts, except the contents of documents or electronic records, may be proved by oral evidence. Oral evidence must, in all cases, be direct — that is, it must be the evidence of a witness who personally perceived the fact.
+
+DOCTOR RELEVANCE: When you testify in court, you can only speak about what you personally observed or did. You cannot testify to what another doctor found unless you are reporting your own examination. "I examined the patient and found X" is direct evidence. "I was told by another doctor that X was found" is hearsay and inadmissible.
+
+---
+
+SECTION 63: DOCUMENTARY EVIDENCE — ELECTRONIC RECORDS (NEW EMPHASIS IN BSA)
+The contents of documents may be proved either by primary or secondary evidence.
+Electronic records including:
+- Computer-generated documents
+- Digital images (X-rays, photographs)
+- CCTV footage
+- Electronic signatures on reports
+- WhatsApp messages or emails between parties
+...may all be produced as documentary evidence subject to certification under Section 63.
+
+CERTIFICATE REQUIREMENT FOR ELECTRONIC EVIDENCE:
+A certificate signed by a person responsible for operating the device that produced the electronic record, identifying the device, stating that proper procedures were followed, and confirming accuracy — is required for electronic records to be admissible.
+
+DOCTOR RELEVANCE: If you produce a digital X-ray, photograph injury documentation, or a scan as evidence, ensure the hospital IT administrator provides the required certificate. Keep a paper printout with the treating doctor's signature as backup.
+
+---
+
+SECTION 57: PRIMARY EVIDENCE
+Documents must be proved by primary evidence — i.e., the original document. Secondary evidence (certified copy) is permitted when the original is with the opposing party, has been destroyed, or cannot be produced without unreasonable delay.
+
+DOCTOR RELEVANCE: Ideally produce original MLC register entries or originals of post-mortem reports. If the original has been submitted to police, obtain a certified copy for yourself. Police must give a copy of the MLC report to the hospital and to the victim.
+
+---
+
+SECTION 105:ON WHOM  BURDEN OF PROOFLIES
+The burden of proof in a suit or proceeding lies on that person who would fail if no evidence at all were given on either side. In criminal cases, the prosecution bears the burden of proving guilt beyond reasonable doubt.
+
+DOCTOR RELEVANCE: Your documentation supports the prosecution's case. Clear, detailed, objective MLC reports remove ambiguity. Vague or incomplete reports create reasonable doubt that benefits the accused.
+
+---
+
+STANDARD OF PROOF — CRIMINAL CASES (NOT AN EXPLICIT SECTION)
+The standard of proof in criminal cases is "beyond reasonable doubt." Medical evidence alone rarely achieves this; it must be consistent with and support other evidence.
+
+DOCTOR RELEVANCE: Your role is not to prove guilt — it is to accurately document clinical findings. The court then weighs medical evidence alongside other evidence.
+
+---
+
+SECTION 41: OPINION AS TO HANDWRITING AND DIGITAL SIGNATURES
+When the Court has to form an opinion as to the person by whom any document was written or signed, the opinion of any person acquainted with the handwriting of the person by whom it is supposed to be written or signed, that it was or was not written or signed by that person, is a relevant fact.
+Electronic signatures are presumed genuine under BSA if generated by proper systems.
+
+DOCTOR RELEVANCE: Your signature on MLC reports, post-mortem reports, and injury certificates authenticates them. Sign clearly, print your name, write your qualification and registration number, and date/time every document.
+
+---
+
+SECTION 72: COMPARISON OF SIGNATURE, WRITING, OR SEAL
+In order to ascertain whether a signature, writing, or seal is that of the person by whom it purports to have been written or made, any signature, writing, or seal admitted or proved to the satisfaction of the Court to have been written or made by that person may be compared with the one which is to be proved.
+
+---
+
+SECTION 94: EVIDENCE OF TERMS OF CONTRACTS, GRANTS, AND OTHER DISPOSITIONS OF PROPERTY REDUCED TO FORM OF DOCUMENT
+When the terms of a contract, or of a grant, or of any other disposition of property, have been reduced to the form of a document, no evidence shall be given in proof of the terms of such contract, grant or other disposition of property, or of such matter, except the document itself, or secondary evidence of its contents.
+
+---
+
+SECTION 135: PRODUCTION OF TITLE DEEDS OF WITNESS, NOT A PARTY
+No witness who is not a party to a suit shall be compelled to produce his title-deeds to any property, or any document by virtue of which he holds any property as pledgee or mortgagee, or any document the production of which might tend to incriminate him, unless he has agreed in writing to produce them with the party seeking the production of such documents.
+
+DOCTOR RELEVANCE: Doctors as witnesses cannot be compelled to produce their private notes or personal files unless they contain information relevant to the case and have been properly summoned by court order.
+
+---
+
+SECTION 130: PRIVILEGE OF OFFICIAL COMMUNICATIONS
+No public officer shall be compelled to disclose communications made to him in official confidence, when he considers that the public interests would suffer by the disclosure.
+
+DOCTOR RELEVANCE: Government hospital medical officers may claim privilege for confidential official communications. However, this does NOT override court orders to produce MLC records or post-mortem reports — those are required to be produced when summoned.
+
+---
+
+SECTION 132: PROFESSIONAL COMMUNICATIONS BETWEEN ATTORNEY AND CLIENT
+The protection of privileged communications extends to attorneys and clients. Note: Doctor-patient communications are NOT similarly privileged in criminal cases under Indian law.
+
+DOCTOR RELEVANCE: Unlike attorney-client privilege, doctor-patient confidentiality is not absolute. In criminal cases, courts can compel doctors to disclose patient information relevant to the case. In sexual assault cases, however, the identity of the victim is protected under BNS and cannot be disclosed in court or public proceedings.
+
+---
+
+SECTION 124: COMPETENCY OF WITNESSES
+All persons shall be competent to testify unless the Court considers that they are prevented from understanding the questions put to them, or from giving rational answers to those questions, by tender years, extreme old age, disease (mental or physical), or any other cause of the same kind.
+
+DOCTOR RELEVANCE: Doctors can be compelled to testify as witnesses. If a rape victim is a child (under 12), the Court may accept their statement without oath and assess trustworthiness. A medical certificate of the victim's age and mental state may be required.
+
+---
+
+SECTION 143: ORDER OF EXAMINATION
+Witnesses shall be first examined in chief (by the party calling them), then cross-examined (by the other party), and then re-examined (by the party calling them). Doctors are most commonly called by the prosecution and will be cross-examined by the defence.
+
+DOCTOR RELEVANCE: Anticipate cross-examination on: the completeness of your examination, whether you followed protocol, whether findings are consistent with alternative explanations, the time gap between injury and examination, and the chain of custody for samples.
+
+---
+
+SECTION 146: LEADING QUESTIONS IN EXAMINATION-IN-CHIEF
+Leading questions (which suggest the desired answer) must not be asked in an examination-in-chief or a re-examination except with court permission, but are freely permitted during cross-examination. 
+---
+
+SECTION 39 (EXPERT TESTIMONY): DNA EVIDENCE (NEW EXPLICIT PROVISION IN BSA)
+Notwithstanding anything contained in this Adhiniyam, evidence of DNA profiling shall be admissible as evidence.
+PRESUMPTION: If DNA collected from the scene or victim matches the accused, the Court shall presume that the accused committed the offence, unless the contrary is proved.
+
+DOCTOR RELEVANCE: DNA evidence collected during medical examination of rape victims and accused is now explicitly admissible with a legal presumption of guilt if it matches. Proper collection, preservation, and chain of custody of DNA samples is critical. Use sterile swabs, label properly, seal, and hand to police. Do NOT mix samples. Maintain cold chain if required.
+
+---
+
+SECTION 23 (PROVISO): FACTS DISCOVERED THROUGH INFORMATION FROM ACCUSED
+Where any fact is deposed to as having been discovered in consequence of information received from a person accused of any offence in the custody of a police officer, so much of the information as relates distinctly to the fact thereby discovered may be proved.
+
+---
+
+SECTION 68: PROOF OF SIGNATURE OR HANDWRITING OF PERSON WHO IS DEAD OR CANNOT BE FOUND (NOT SURE)
+If the person who signed or wrote the document is dead, cannot be found, or is incapable of giving evidence, or is abroad, the signature or handwriting can be proved by any person acquainted with their handwriting.
+
+DOCTOR RELEVANCE: If the treating doctor who issued the original MLC report is no longer available, another doctor or a records supervisor can authenticate the hospital record.
+
+---
+
+BSA CHECKLIST FOR DOCTORS — SUMMARY OF EVIDENCE DUTIES:
+1. Sign, date, and time ALL documents you create.
+2. Write your full name, MBBS/MD qualification, and MCI/NMC registration number on every report.
+3. Use objective, clinical language. Avoid opinion in factual sections.
+4. Separate FINDINGS (what you saw) from OPINION (what you conclude).
+5. Preserve chain of custody for all biological samples — hand to police against signature.
+6. Digital records must be certified for admissibility — coordinate with hospital IT.
+7. Keep personal copies of all MLCs — you may be called to court years later.
+8. Record dying declarations exactly as spoken — do not paraphrase.
+9. DNA evidence now carries a legal presumption — collect it carefully and completely.
+10. You can be cross-examined on anything you wrote — write defensibly and accurately.
+
+---
+

@@ -1,0 +1,26 @@
+# ── Secrets ──────────────────────────────────────────────
+.env
+
+# ── Python ──────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# ── Runtime-generated data ──────────────────────────────
+medilex.db
+
+# ── ChromaDB vector store ───────────────────────────────
+# Re-generate with: python scripts/build_database.py
+# Uncomment the line below if you prefer NOT to commit the
+# vector store (saves ~5 MB in git but requires rebuild):
+# chroma_db/
+
+# ── IDE / OS ────────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

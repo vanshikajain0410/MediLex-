@@ -1,0 +1,107 @@
+ACT NAME: MEDICAL TERMINATION OF PREGNANCY ACT 1971 (MTP ACT)
+ACT NUMBER: 34 OF 1971
+LAST AMENDED: 2021 (MTP Amendment Act 2021)
+RELEVANCE: Medical, Abortion, Pregnancy Termination, Doctor Obligations, Legal Protection
+
+---
+
+SECTION 2: DEFINITIONS
+2(a) "guardian" means a person having the care of a minor or mentally ill person.
+2(b) "mentally ill person" means a person who is in need of treatment by reason of any mental disorder other than mental retardation.
+2(c) "minor" means a person who has not attained majority under the Indian Majority Act 1875.
+2(d) "registered medical practitioner" means a doctor with a recognised medical qualification, whose name is in the State Medical Register, and who has experience or training in gynaecology and obstetrics.
+2(e) "termination of pregnancy" means a procedure to terminate a pregnancy by using medical or surgical methods.
+
+---
+
+SECTION 3: WHEN PREGNANCIES MAY BE TERMINATED — CORE DOCTOR OBLIGATION
+A registered medical practitioner SHALL NOT be guilty of any offence under IPC or any other law if any pregnancy is terminated in accordance with this Act.
+
+GESTATIONAL LIMITS (as amended 2021):
+
+UP TO 20 WEEKS:
+One registered medical practitioner's opinion is sufficient if the continuation of pregnancy would involve:
+(i) risk to life of the pregnant woman, OR
+(ii) grave injury to her physical or mental health, OR
+(iii) substantial risk that the child, if born, would suffer from serious physical or mental abnormality.
+
+20 TO 24 WEEKS (2021 Amendment — expanded category):
+Two registered medical practitioners' opinions required. Applies to special categories of women as prescribed by rules including:
+- Survivors of rape or sexual assault
+- Minors
+- Women with change in marital status (widowhood, divorce)
+- Women with disabilities
+- Women with foetal malformation
+
+BEYOND 24 WEEKS:
+Only permitted where a Medical Board diagnoses substantial foetal abnormalities. No gestational limit applies in such cases.
+
+DOCTOR NOTE — RAPE VICTIM PRESUMPTION:
+Where any pregnancy is alleged by the pregnant woman to have been caused by rape, the anguish caused by the pregnancy SHALL BE PRESUMED to constitute grave injury to her mental health. Doctor does not need to verify the rape claim — the woman's statement is sufficient.
+
+DOCTOR NOTE — CONTRACEPTIVE FAILURE:
+Where pregnancy occurs as a result of failure of any contraceptive device or method used by the woman or her partner, the anguish caused by such pregnancy may be presumed to constitute a grave injury to the mental health of the pregnant woman.
+
+---
+
+SECTION 3(2B): FOETAL ABNORMALITY — NO GESTATIONAL LIMIT
+The gestational limits under Section 3(2) shall NOT apply where termination is necessitated by diagnosis of substantial foetal abnormalities diagnosed by a Medical Board. There is NO upper gestational limit in such cases.
+
+---
+
+SECTION 3(2C) AND 3(2D): MEDICAL BOARD COMPOSITION
+Every State Government shall constitute a Medical Board consisting of:
+(a) A Gynaecologist
+(b) A Paediatrician
+(c) A Radiologist or Sonologist
+(d) Other members as notified by the State Government
+
+---
+
+SECTION 4: APPROVED PLACE FOR TERMINATION
+No termination of pregnancy shall be performed except at:
+(a) A hospital established or maintained by Government, OR
+(b) A place approved for this purpose by the Government or District Level Committee.
+
+DOCTOR NOTE: Performing termination outside an approved facility is a criminal offence under Section 5.
+
+---
+
+SECTION 5: EMERGENCY EXCEPTION — LIFE-SAVING TERMINATION
+The requirements of Section 4 (approved place) and the requirement of two doctors' opinion and gestational limit under Section 3(2) SHALL NOT APPLY where a registered medical practitioner is of the opinion, formed in good faith, that termination is IMMEDIATELY NECESSARY TO SAVE THE LIFE of the pregnant woman.
+
+DOCTOR NOTE: In a life-threatening emergency, a single doctor can perform termination anywhere, including a non-approved facility, without any gestational restriction.
+
+PENALTIES FOR VIOLATIONS:
+- Termination by a non-registered practitioner: Rigorous imprisonment 2 to 7 years.
+- Termination at an unapproved place: Rigorous imprisonment 2 to 7 years.
+- Owner of unapproved place: Rigorous imprisonment 2 to 7 years.
+
+---
+
+SECTION 5A: PROTECTION OF PRIVACY OF WOMAN
+No registered medical practitioner shall reveal the name or other particulars of a woman whose pregnancy has been terminated, except to a person authorised by law.
+PENALTY for violation: Imprisonment up to one year, or fine, or both.
+
+DOCTOR NOTE: Patient confidentiality is legally mandatory. Disclosing the identity of a woman who had a termination is a criminal offence.
+
+---
+
+SECTION 8: PROTECTION OF ACTION TAKEN IN GOOD FAITH
+No legal proceeding shall lie against any registered medical practitioner for any damage caused by anything done in good faith under this Act.
+
+DOCTOR NOTE: If you follow this Act in good faith, you are legally protected from civil or criminal liability.
+
+---
+
+KEY MEDICO-LEGAL SUMMARY FOR DOCTORS:
+
+1. Up to 20 weeks: One doctor's opinion sufficient. No court order needed.
+2. 20-24 weeks: Two doctors required. Applies to rape survivors, minors, divorcees, disabled women, foetal abnormality cases.
+3. Beyond 24 weeks: Only for substantial foetal abnormalities confirmed by Medical Board.
+4. Emergency (life of mother at risk): One doctor, anywhere, any gestation — immediately act.
+5. Rape survivor: Her statement alone is enough — no FIR required, no police verification required before termination.
+6. Minor seeking termination: Guardian's consent required (she is a minor). Two doctors required regardless of gestation up to 24 weeks.
+7. Privacy: Never disclose patient identity. Criminal offence if violated.
+8. Good faith protection: Doctor acting in good faith under this Act cannot be sued or prosecuted.
+
