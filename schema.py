@@ -8,7 +8,7 @@ Two schemas coexist intentionally:
                      frontend sends and is easy to test with curl.
 
   MediLexIntake    — The legally rigorous 30+ field schema originally
-                     designed in mediLex.py (Person 1's work).  Captures
+                     designed in mediLex.py.  Captures
                      perpetrator relationship, gestational age, consent
                      capacity, guardian checks, and other fields that
                      are *legally significant* for Indian medico-legal
@@ -60,8 +60,17 @@ class CaseInput(BaseModel):
 
 
 class AnalyzeResponse(BaseModel):
-    """Shape of the /api/analyze JSON response."""
+    """
+    Shape of the /api/analyze JSON response.
+
+    Note: main.py's route doesn't currently declare response_model=AnalyzeResponse,
+    so this isn't runtime-enforced today — it documents the contract for callers
+    (and for whoever wires response_model in later) rather than validating output.
+    """
     session_id: int
     is_minor: bool
     laws_retrieved: list[str]
-    checklist: dict
+    checklist: dict | None
+    abstained: bool = False
+    abstain_reason: str | None = None
+    confidence_score: float | None = None

@@ -1,1556 +1,2498 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>MediLex India — Medico-Legal Protocol Engine</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --red: #C0392B;
-    --red-light: #FADBD8;
-    --red-dark: #922B21;
-    --ink: #1A1A2E;
-    --ink-2: #2D2D44;
-    --cream: #FDF8F0;
-    --cream-2: #F5EFE0;
-    --cream-3: #EDE5D0;
-    --gold: #B8860B;
-    --gold-light: #F9F1DC;
-    --green: #1A6B4A;
-    --green-light: #D5F0E5;
-    --amber: #D97706;
-    --amber-light: #FEF3C7;
-    --muted: #6B6B80;
-    --border: rgba(26,26,46,0.12);
-    --border-strong: rgba(26,26,46,0.25);
-    --success: #065F46;
-    --success-bg: #D1FAE5;
-    --danger: #991B1B;
-    --danger-bg: #FEE2E2;
-    --warning: #92400E;
-    --warning-bg: #FEF3C7;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--ink);
-    min-height: 100vh;
-    line-height: 1.6;
-  }
-
-  /* ── Header ── */
-  header {
-    background: var(--ink);
-    color: var(--cream);
-    padding: 0 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 3px solid var(--red);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .logo-icon {
-    width: 36px;
-    height: 36px;
-    background: var(--red);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 18px;
-    color: white;
-    letter-spacing: -1px;
-    flex-shrink: 0;
-  }
-
-  .logo-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-  }
-
-  .logo-text span {
-    color: var(--red);
-  }
-
-  .header-badge {
-    background: rgba(192,57,43,0.2);
-    color: #FF8A80;
-    border: 1px solid rgba(192,57,43,0.4);
-    border-radius: 100px;
-    font-size: 0.7rem;
-    font-weight: 500;
-    padding: 3px 10px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .stats-pill {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 100px;
-    padding: 4px 14px;
-    font-size: 0.78rem;
-    color: rgba(255,255,255,0.6);
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .stats-pill:hover { background: rgba(255,255,255,0.1); }
-  .stats-pill .dot { width: 6px; height: 6px; background: #4ADE80; border-radius: 50%; }
-
-  /* ── Layout ── */
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 2.5rem 2rem;
-  }
-
-  .page-hero {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-
-  .page-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.6rem;
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.15;
-    margin-bottom: 0.75rem;
-  }
-
-  .page-hero h1 .accent { color: var(--red); }
-
-  .page-hero p {
-    font-size: 1rem;
-    color: var(--muted);
-    max-width: 560px;
-    margin: 0 auto 1.5rem;
-  }
-
-  .law-tags {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .law-tag {
-    background: var(--cream-2);
-    border: 1px solid var(--border);
-    color: var(--ink-2);
-    font-size: 0.72rem;
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 4px;
-    letter-spacing: 0.3px;
-  }
-
-  /* ── Main grid ── */
-  .main-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    align-items: start;
-  }
-
-  @media (max-width: 800px) {
-    .main-grid { grid-template-columns: 1fr; }
-    .page-hero h1 { font-size: 1.8rem; }
-  }
-
-  /* ── Card ── */
-  .card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .card-header {
-    padding: 1.25rem 1.5rem 1rem;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--cream-2);
-  }
-
-  .card-header-icon {
-    width: 30px;
-    height: 30px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .card-header h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--ink);
-  }
-
-  .card-body {
-    padding: 1.5rem;
-  }
-
-  /* ── Form elements ── */
-  .form-section {
-    margin-bottom: 1.5rem;
-  }
-
-  .section-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--muted);
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--cream-3);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .section-label svg { opacity: 0.5; }
-
-  .form-row {
-    display: grid;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-
-  .form-row-2 { grid-template-columns: 1fr 1fr; }
-  .form-row-3 { grid-template-columns: 1fr 1fr 1fr; }
-
-  label {
-    display: block;
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--ink-2);
-    margin-bottom: 5px;
-  }
-
-  label .req {
-    color: var(--red);
-    margin-left: 2px;
-  }
-
-  input[type="text"],
-  input[type="number"],
-  select,
-  textarea {
-    width: 100%;
-    border: 1px solid var(--border-strong);
-    border-radius: 7px;
-    padding: 8px 11px;
-    font-size: 0.85rem;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--ink);
-    background: white;
-    transition: border-color 0.15s, box-shadow 0.15s;
-    appearance: none;
-    -webkit-appearance: none;
-  }
-
-  input[type="text"]:focus,
-  input[type="number"]:focus,
-  select:focus,
-  textarea:focus {
-    outline: none;
-    border-color: var(--red);
-    box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
-  }
-
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B6B80' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    padding-right: 28px;
-    cursor: pointer;
-  }
-
-  textarea { resize: vertical; min-height: 80px; }
-
-  /* ── Toggle / checkbox groups ── */
-  .toggle-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .toggle-btn {
-    padding: 5px 12px;
-    border: 1px solid var(--border-strong);
-    border-radius: 6px;
-    background: white;
-    font-size: 0.78rem;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s;
-    font-weight: 400;
-  }
-
-  .toggle-btn:hover { border-color: var(--red); color: var(--red); }
-
-  .toggle-btn.active {
-    background: var(--red-light);
-    border-color: var(--red);
-    color: var(--red-dark);
-    font-weight: 500;
-  }
-
-  /* ── Boolean toggles ── */
-  .bool-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--cream-3);
-    font-size: 0.82rem;
-    color: var(--ink-2);
-  }
-
-  .bool-row:last-child { border-bottom: none; }
-
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 36px;
-    height: 20px;
-    flex-shrink: 0;
-  }
-
-  .switch input { display: none; }
-
-  .switch-slider {
-    position: absolute;
-    inset: 0;
-    background: var(--cream-3);
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background 0.2s;
-    border: 1px solid var(--border);
-  }
-
-  .switch-slider::after {
-    content: '';
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: white;
-    top: 2px;
-    left: 2px;
-    transition: transform 0.2s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  }
-
-  .switch input:checked + .switch-slider { background: var(--red); border-color: var(--red); }
-  .switch input:checked + .switch-slider::after { transform: translateX(16px); }
-
-  /* ── Conditional panel ── */
-  .conditional-panel {
-    background: var(--cream-2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1rem 1.1rem;
-    margin-top: 10px;
-    display: none;
-  }
-
-  .conditional-panel.show { display: block; }
-
-  /* ── Submit button ── */
-  .submit-btn {
-    width: 100%;
-    padding: 13px;
-    background: var(--ink);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    font-family: 'DM Sans', sans-serif;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    letter-spacing: 0.2px;
-    margin-top: 0.5rem;
-  }
-
-  .submit-btn:hover { background: var(--ink-2); }
-  .submit-btn:active { transform: scale(0.99); }
-  .submit-btn:disabled { background: var(--muted); cursor: not-allowed; }
-
-  .submit-btn.loading { background: var(--ink-2); }
-
-  /* ── Spinner ── */
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: white;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    display: none;
-  }
-
-  .loading .spinner { display: block; }
-  .loading .btn-text { display: none; }
-
-  /* ── Results panel ── */
-  .results-panel {
-    display: none;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .results-panel.show { display: flex; }
-
-  .result-meta {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 0.5rem;
-  }
-
-  .meta-card {
-    background: var(--cream-2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 12px;
-    text-align: center;
-  }
-
-  .meta-card .meta-label {
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--muted);
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-
-  .meta-card .meta-value {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--ink);
-  }
-
-  .meta-card .meta-value.minor { color: var(--red); }
-  .meta-card .meta-value.adult { color: var(--green); }
-
-  /* ── Checklist sections ── */
-  .checklist-section {
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .checklist-header {
-    padding: 10px 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-  }
-
-  .checklist-header svg { flex-shrink: 0; }
-
-  .cl-legal { background: #FEF3C7; color: #92400E; }
-  .cl-medical { background: #D1FAE5; color: #065F46; }
-  .cl-docs { background: #E0E7FF; color: #3730A3; }
-  .cl-inform { background: #FCE7F3; color: #9D174D; }
-
-  .checklist-items {
-    padding: 10px 14px;
-    background: white;
-    border-top: 1px solid var(--border);
-  }
-
-  .checklist-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 6px 0;
-    border-bottom: 1px solid var(--cream-3);
-    font-size: 0.82rem;
-    color: var(--ink-2);
-    line-height: 1.45;
-  }
-
-  .checklist-item:last-child { border-bottom: none; }
-
-  .check-icon {
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
-    flex-shrink: 0;
-    margin-top: 1px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .cl-legal .check-icon-inner { color: #92400E; }
-
-  .laws-retrieved {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .law-chip {
-    background: var(--ink);
-    color: var(--cream);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.68rem;
-    padding: 3px 9px;
-    border-radius: 4px;
-    font-weight: 500;
-  }
-
-  /* ── Error box ── */
-  .error-box {
-    background: var(--danger-bg);
-    border: 1px solid rgba(153,27,27,0.25);
-    border-radius: 8px;
-    padding: 12px 14px;
-    font-size: 0.82rem;
-    color: var(--danger);
-    display: none;
-  }
-
-  .error-box.show { display: block; }
-
-  /* ── Validation error ── */
-  .field-error {
-    font-size: 0.72rem;
-    color: var(--red);
-    margin-top: 4px;
-    display: none;
-  }
-
-  .field-error.show { display: block; }
-
-  /* ── Alert banner ── */
-  .alert-banner {
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 0.82rem;
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-    line-height: 1.45;
-  }
-
-  .alert-banner.warning {
-    background: var(--warning-bg);
-    color: var(--warning);
-    border: 1px solid rgba(217,119,6,0.25);
-  }
-
-  .alert-banner.danger {
-    background: var(--danger-bg);
-    color: var(--danger);
-    border: 1px solid rgba(153,27,27,0.25);
-  }
-
-  .alert-banner.info {
-    background: #EFF6FF;
-    color: #1E40AF;
-    border: 1px solid rgba(30,64,175,0.2);
-  }
-
-  /* ── Session info ── */
-  .session-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 0;
-    font-size: 0.78rem;
-    color: var(--muted);
-    border-bottom: 1px solid var(--cream-3);
-  }
-
-  .session-row strong { color: var(--ink-2); font-weight: 500; }
-
-  /* ── Divider ── */
-  .divider {
-    height: 1px;
-    background: var(--cream-3);
-    margin: 1rem 0;
-  }
-
-  /* ── Bottom info ── */
-  .bottom-info {
-    text-align: center;
-    margin-top: 2.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
-    font-size: 0.75rem;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-
-  .bottom-info a { color: var(--red); text-decoration: none; }
-
-  /* ── Modal overlay ── */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(26,26,46,0.5);
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-  }
-
-  .modal-overlay.show { opacity: 1; pointer-events: all; }
-
-  .modal {
-    background: white;
-    border-radius: 14px;
-    width: 100%;
-    max-width: 480px;
-    overflow: hidden;
-    transform: translateY(10px);
-    transition: transform 0.25s;
-  }
-
-  .modal-overlay.show .modal { transform: translateY(0); }
-
-  .modal-header {
-    background: var(--ink);
-    color: white;
-    padding: 1rem 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .modal-header h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    font-weight: 600;
-  }
-
-  .modal-close {
-    background: none;
-    border: none;
-    color: rgba(255,255,255,0.5);
-    cursor: pointer;
-    font-size: 1.2rem;
-    line-height: 1;
-    padding: 0;
-  }
-
-  .modal-body { padding: 1.25rem; }
-
-  .stat-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--cream-3);
-    font-size: 0.84rem;
-  }
-
-  .stat-row:last-child { border-bottom: none; }
-  .stat-row .stat-label { color: var(--muted); }
-  .stat-row .stat-val { font-weight: 600; color: var(--ink); }
-
-  /* ── Placeholder for results ── */
-  .results-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 1.5rem;
-    text-align: center;
-    color: var(--muted);
-    gap: 12px;
-  }
-
-  .results-placeholder svg { opacity: 0.25; }
-  .results-placeholder p { font-size: 0.85rem; line-height: 1.6; max-width: 240px; }
-
-  /* ── Progress steps ── */
-  .step-indicator {
-    display: flex;
-    gap: 0;
-    margin-bottom: 1.5rem;
-    overflow: hidden;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-  }
-
-  .step {
-    flex: 1;
-    padding: 8px 10px;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    text-align: center;
-    color: var(--muted);
-    background: var(--cream-2);
-    border-right: 1px solid var(--border);
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-    position: relative;
-  }
-
-  .step:last-child { border-right: none; }
-  .step.active { background: var(--ink); color: white; }
-  .step.done { background: var(--red-light); color: var(--red-dark); }
-
-  /* ── Animate in ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .animate-in { animation: fadeUp 0.4s ease forwards; }
-
-  /* ── Floating pulse on submit area ── */
-  @keyframes pulse-border {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.3); }
-    50% { box-shadow: 0 0 0 6px rgba(192,57,43,0); }
-  }
-
-  .pulse-active { animation: pulse-border 2s ease infinite; border-color: var(--red) !important; }
-
-</style>
-</head>
-<body>
-
-<!-- ── Header ── -->
-<header>
-  <div class="logo">
-    <div class="logo-icon">M<span style="font-size:11px;">L</span></div>
-    <span class="logo-text">Medi<span>Lex</span> <span style="color:rgba(255,255,255,0.4); font-weight:300; font-size:1rem;">India</span></span>
-    <span class="header-badge">Beta</span>
-  </div>
-  <div class="header-right">
-    <div class="stats-pill" onclick="openStats()">
-      <span class="dot"></span>
-      <span>Live · View Stats</span>
-    </div>
-  </div>
-</header>
-
-<!-- ── Modal: Stats ── -->
-<div class="modal-overlay" id="statsModal">
-  <div class="modal">
-    <div class="modal-header">
-      <h3>System Statistics</h3>
-      <button class="modal-close" onclick="closeStats()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div id="statsContent">
-        <div style="text-align:center; padding: 1.5rem; color: var(--muted); font-size:0.85rem;">Loading stats…</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MediLex India — Medico-Legal Protocol Engine</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --red: #c0392b;
+        --red-light: #fadbd8;
+        --red-dark: #922b21;
+        --ink: #1a1a2e;
+        --ink-2: #2d2d44;
+        --cream: #fdf8f0;
+        --cream-2: #f5efe0;
+        --cream-3: #ede5d0;
+        --gold: #b8860b;
+        --gold-light: #f9f1dc;
+        --green: #1a6b4a;
+        --green-light: #d5f0e5;
+        --amber: #d97706;
+        --amber-light: #fef3c7;
+        --muted: #6b6b80;
+        --border: rgba(26, 26, 46, 0.12);
+        --border-strong: rgba(26, 26, 46, 0.25);
+        --success: #065f46;
+        --success-bg: #d1fae5;
+        --danger: #991b1b;
+        --danger-bg: #fee2e2;
+        --warning: #92400e;
+        --warning-bg: #fef3c7;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--cream);
+        color: var(--ink);
+        min-height: 100vh;
+        line-height: 1.6;
+      }
+
+      /* ── Header ── */
+      header {
+        background: var(--ink);
+        color: var(--cream);
+        padding: 0 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-bottom: 3px solid var(--red);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: var(--red);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        font-size: 18px;
+        color: white;
+        letter-spacing: -1px;
+        flex-shrink: 0;
+      }
+
+      .logo-text {
+        font-family: "Playfair Display", serif;
+        font-size: 1.4rem;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+      }
+
+      .logo-text span {
+        color: var(--red);
+      }
+
+      .header-badge {
+        background: rgba(192, 57, 43, 0.2);
+        color: #ff8a80;
+        border: 1px solid rgba(192, 57, 43, 0.4);
+        border-radius: 100px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        padding: 3px 10px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .stats-pill {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 100px;
+        padding: 4px 14px;
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .stats-pill:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .stats-pill .dot {
+        width: 6px;
+        height: 6px;
+        background: #4ade80;
+        border-radius: 50%;
+      }
+
+      /* ── Layout ── */
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2.5rem 2rem;
+      }
+
+      .page-hero {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .page-hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.6rem;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1.15;
+        margin-bottom: 0.75rem;
+      }
+
+      .page-hero h1 .accent {
+        color: var(--red);
+      }
+
+      .page-hero p {
+        font-size: 1rem;
+        color: var(--muted);
+        max-width: 560px;
+        margin: 0 auto 1.5rem;
+      }
+
+      .law-tags {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .law-tag {
+        background: var(--cream-2);
+        border: 1px solid var(--border);
+        color: var(--ink-2);
+        font-size: 0.72rem;
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 500;
+        padding: 4px 10px;
+        border-radius: 4px;
+        letter-spacing: 0.3px;
+      }
+
+      /* ── Main grid ── */
+      .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        align-items: start;
+      }
+
+      @media (max-width: 800px) {
+        .main-grid {
+          grid-template-columns: 1fr;
+        }
+        .page-hero h1 {
+          font-size: 1.8rem;
+        }
+      }
+
+      /* ── Card ── */
+      .card {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .card-header {
+        padding: 1.25rem 1.5rem 1rem;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--cream-2);
+      }
+
+      .card-header-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .card-header h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--ink);
+      }
+
+      .card-body {
+        padding: 1.5rem;
+      }
+
+      /* ── Form elements ── */
+      .form-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .section-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--muted);
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--cream-3);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .section-label svg {
+        opacity: 0.5;
+      }
+
+      .form-row {
+        display: grid;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .form-row-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .form-row-3 {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      label {
+        display: block;
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: var(--ink-2);
+        margin-bottom: 5px;
+      }
+
+      label .req {
+        color: var(--red);
+        margin-left: 2px;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      select,
+      textarea {
+        width: 100%;
+        border: 1px solid var(--border-strong);
+        border-radius: 7px;
+        padding: 8px 11px;
+        font-size: 0.85rem;
+        font-family: "DM Sans", sans-serif;
+        color: var(--ink);
+        background: white;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+        appearance: none;
+        -webkit-appearance: none;
+      }
+
+      input[type="text"]:focus,
+      input[type="number"]:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--red);
+        box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+      }
+
+      select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B6B80' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        padding-right: 28px;
+        cursor: pointer;
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      /* ── Toggle / checkbox groups ── */
+      .toggle-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .toggle-btn {
+        padding: 5px 12px;
+        border: 1px solid var(--border-strong);
+        border-radius: 6px;
+        background: white;
+        font-size: 0.78rem;
+        font-family: "DM Sans", sans-serif;
+        color: var(--muted);
+        cursor: pointer;
+        transition: all 0.15s;
+        font-weight: 400;
+      }
+
+      .toggle-btn:hover {
+        border-color: var(--red);
+        color: var(--red);
+      }
+
+      .toggle-btn.active {
+        background: var(--red-light);
+        border-color: var(--red);
+        color: var(--red-dark);
+        font-weight: 500;
+      }
+
+      /* ── Boolean toggles ── */
+      .bool-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--cream-3);
+        font-size: 0.82rem;
+        color: var(--ink-2);
+      }
+
+      .bool-row:last-child {
+        border-bottom: none;
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 36px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+
+      .switch input {
+        display: none;
+      }
+
+      .switch-slider {
+        position: absolute;
+        inset: 0;
+        background: var(--cream-3);
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background 0.2s;
+        border: 1px solid var(--border);
+      }
+
+      .switch-slider::after {
+        content: "";
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: white;
+        top: 2px;
+        left: 2px;
+        transition: transform 0.2s;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+
+      .switch input:checked + .switch-slider {
+        background: var(--red);
+        border-color: var(--red);
+      }
+      .switch input:checked + .switch-slider::after {
+        transform: translateX(16px);
+      }
+
+      /* ── Conditional panel ── */
+      .conditional-panel {
+        background: var(--cream-2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 1rem 1.1rem;
+        margin-top: 10px;
+        display: none;
+      }
+
+      .conditional-panel.show {
+        display: block;
+      }
+
+      /* ── Submit button ── */
+      .submit-btn {
+        width: 100%;
+        padding: 13px;
+        background: var(--ink);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        font-family: "DM Sans", sans-serif;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          transform 0.1s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        letter-spacing: 0.2px;
+        margin-top: 0.5rem;
+      }
+
+      .submit-btn:hover {
+        background: var(--ink-2);
+      }
+      .submit-btn:active {
+        transform: scale(0.99);
+      }
+      .submit-btn:disabled {
+        background: var(--muted);
+        cursor: not-allowed;
+      }
+
+      .submit-btn.loading {
+        background: var(--ink-2);
+      }
+
+      /* ── Spinner ── */
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        display: none;
+      }
+
+      .loading .spinner {
+        display: block;
+      }
+      .loading .btn-text {
+        display: none;
+      }
+
+      /* ── Results panel ── */
+      .results-panel {
+        display: none;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .results-panel.show {
+        display: flex;
+      }
+
+      .result-meta {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 0.5rem;
+      }
+
+      .meta-card {
+        background: var(--cream-2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 12px;
+        text-align: center;
+      }
+
+      .meta-card .meta-label {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--muted);
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .meta-card .meta-value {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--ink);
+      }
+
+      .meta-card .meta-value.minor {
+        color: var(--red);
+      }
+      .meta-card .meta-value.adult {
+        color: var(--green);
+      }
+
+      /* ── Checklist sections ── */
+      .checklist-section {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .checklist-header {
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+      }
+
+      .checklist-header svg {
+        flex-shrink: 0;
+      }
+
+      .cl-legal {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .cl-medical {
+        background: #d1fae5;
+        color: #065f46;
+      }
+      .cl-docs {
+        background: #e0e7ff;
+        color: #3730a3;
+      }
+      .cl-inform {
+        background: #fce7f3;
+        color: #9d174d;
+      }
+
+      .checklist-items {
+        padding: 10px 14px;
+        background: white;
+        border-top: 1px solid var(--border);
+      }
+
+      .checklist-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 6px 0;
+        border-bottom: 1px solid var(--cream-3);
+        font-size: 0.82rem;
+        color: var(--ink-2);
+        line-height: 1.45;
+      }
+
+      .checklist-item:last-child {
+        border-bottom: none;
+      }
+
+      .check-icon {
+        width: 18px;
+        height: 18px;
+        border-radius: 4px;
+        flex-shrink: 0;
+        margin-top: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .cl-legal .check-icon-inner {
+        color: #92400e;
+      }
+
+      .laws-retrieved {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .law-chip {
+        background: var(--ink);
+        color: var(--cream);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.68rem;
+        padding: 3px 9px;
+        border-radius: 4px;
+        font-weight: 500;
+      }
+
+      /* ── Confidence badge ── */
+      /* Uses --success/--warning/--danger, defined in :root but otherwise unused
+     until now. Bands (see renderConfidenceBadge() in JS) are RRF-scale
+     (~0.025-0.033), matching config.py's CONFIDENCE_BAND_HIGH/MEDIUM — NOT
+     config.CONFIDENCE_THRESHOLD, which is the separate, higher-stakes gate
+     that decides whether a checklist is generated at all. */
+      .confidence-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 12px;
+        border-radius: 100px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      .confidence-badge .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      .confidence-badge.high {
+        background: var(--success-bg);
+        color: var(--success);
+      }
+      .confidence-badge.high .dot {
+        background: var(--success);
+      }
+
+      .confidence-badge.medium {
+        background: var(--warning-bg);
+        color: var(--warning);
+      }
+      .confidence-badge.medium .dot {
+        background: var(--warning);
+      }
+
+      .confidence-badge.low {
+        background: var(--danger-bg);
+        color: var(--danger);
+      }
+      .confidence-badge.low .dot {
+        background: var(--danger);
+      }
+
+      /* ── Citation tags ── */
+      /* Parsed from the leading "[BNS Section 124]" / "[Clinical Best Practice]"
+     prefix generator.py's SYSTEM_PROMPT requires on every checklist item. */
+      .citation-tag {
+        display: inline-block;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.65rem;
+        font-weight: 600;
+        padding: 2px 7px;
+        border-radius: 4px;
+        margin-right: 6px;
+        white-space: nowrap;
+        background: var(--gold-light);
+        color: var(--gold);
+        border: 1px solid rgba(184, 134, 11, 0.3);
+      }
+
+      .citation-tag.clinical {
+        background: var(--cream-3);
+        color: var(--muted);
+        border: 1px solid var(--border);
+      }
+
+      /* ── Error box ── */
+      .error-box {
+        background: var(--danger-bg);
+        border: 1px solid rgba(153, 27, 27, 0.25);
+        border-radius: 8px;
+        padding: 12px 14px;
+        font-size: 0.82rem;
+        color: var(--danger);
+        display: none;
+      }
+
+      .error-box.show {
+        display: block;
+      }
+
+      /* ── Validation error ── */
+      .field-error {
+        font-size: 0.72rem;
+        color: var(--red);
+        margin-top: 4px;
+        display: none;
+      }
+
+      .field-error.show {
+        display: block;
+      }
+
+      /* ── Alert banner ── */
+      .alert-banner {
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 0.82rem;
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        line-height: 1.45;
+      }
+
+      .alert-banner.warning {
+        background: var(--warning-bg);
+        color: var(--warning);
+        border: 1px solid rgba(217, 119, 6, 0.25);
+      }
+
+      .alert-banner.danger {
+        background: var(--danger-bg);
+        color: var(--danger);
+        border: 1px solid rgba(153, 27, 27, 0.25);
+      }
+
+      .alert-banner.info {
+        background: #eff6ff;
+        color: #1e40af;
+        border: 1px solid rgba(30, 64, 175, 0.2);
+      }
+
+      /* ── Session info ── */
+      .session-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 0;
+        font-size: 0.78rem;
+        color: var(--muted);
+        border-bottom: 1px solid var(--cream-3);
+      }
+
+      .session-row strong {
+        color: var(--ink-2);
+        font-weight: 500;
+      }
+
+      /* ── Divider ── */
+      .divider {
+        height: 1px;
+        background: var(--cream-3);
+        margin: 1rem 0;
+      }
+
+      /* ── Bottom info ── */
+      .bottom-info {
+        text-align: center;
+        margin-top: 2.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border);
+        font-size: 0.75rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .bottom-info a {
+        color: var(--red);
+        text-decoration: none;
+      }
+
+      /* ── Modal overlay ── */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(26, 26, 46, 0.5);
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+
+      .modal-overlay.show {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .modal {
+        background: white;
+        border-radius: 14px;
+        width: 100%;
+        max-width: 480px;
+        overflow: hidden;
+        transform: translateY(10px);
+        transition: transform 0.25s;
+      }
+
+      .modal-overlay.show .modal {
+        transform: translateY(0);
+      }
+
+      .modal-header {
+        background: var(--ink);
+        color: white;
+        padding: 1rem 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .modal-header h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        font-size: 1.2rem;
+        line-height: 1;
+        padding: 0;
+      }
+
+      .modal-body {
+        padding: 1.25rem;
+      }
+
+      .stat-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--cream-3);
+        font-size: 0.84rem;
+      }
+
+      .stat-row:last-child {
+        border-bottom: none;
+      }
+      .stat-row .stat-label {
+        color: var(--muted);
+      }
+      .stat-row .stat-val {
+        font-weight: 600;
+        color: var(--ink);
+      }
+
+      /* ── Placeholder for results ── */
+      .results-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 1.5rem;
+        text-align: center;
+        color: var(--muted);
+        gap: 12px;
+      }
+
+      .results-placeholder svg {
+        opacity: 0.25;
+      }
+      .results-placeholder p {
+        font-size: 0.85rem;
+        line-height: 1.6;
+        max-width: 240px;
+      }
+
+      /* ── Progress steps ── */
+      .step-indicator {
+        display: flex;
+        gap: 0;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+      }
+
+      .step {
+        flex: 1;
+        padding: 8px 10px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        text-align: center;
+        color: var(--muted);
+        background: var(--cream-2);
+        border-right: 1px solid var(--border);
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          color 0.15s;
+        position: relative;
+      }
+
+      .step:last-child {
+        border-right: none;
+      }
+      .step.active {
+        background: var(--ink);
+        color: white;
+      }
+      .step.done {
+        background: var(--red-light);
+        color: var(--red-dark);
+      }
+
+      /* ── Animate in ── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-in {
+        animation: fadeUp 0.4s ease forwards;
+      }
+
+      /* ── Floating pulse on submit area ── */
+      @keyframes pulse-border {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(192, 57, 43, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 0 6px rgba(192, 57, 43, 0);
+        }
+      }
+
+      .pulse-active {
+        animation: pulse-border 2s ease infinite;
+        border-color: var(--red) !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── Header ── -->
+    <header>
+      <div class="logo">
+        <div class="logo-icon">M<span style="font-size: 11px">L</span></div>
+        <span class="logo-text"
+          >Medi<span>Lex</span>
+          <span
+            style="
+              color: rgba(255, 255, 255, 0.4);
+              font-weight: 300;
+              font-size: 1rem;
+            "
+            >India</span
+          ></span
+        >
+        <span class="header-badge">Beta</span>
+      </div>
+      <div class="header-right">
+        <div class="stats-pill" onclick="openStats()">
+          <span class="dot"></span>
+          <span>Live · View Stats</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Modal: Stats ── -->
+    <div class="modal-overlay" id="statsModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>System Statistics</h3>
+          <button class="modal-close" onclick="closeStats()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div id="statsContent">
+            <div
+              style="
+                text-align: center;
+                padding: 1.5rem;
+                color: var(--muted);
+                font-size: 0.85rem;
+              "
+            >
+              Loading stats…
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- ── Main ── -->
-<div class="container">
-
-  <!-- Hero -->
-  <div class="page-hero animate-in">
-    <h1>Medico-Legal Protocol Engine<br/><span class="accent">for Indian Clinicians</span></h1>
-    <p>Enter anonymised case details to instantly generate structured legal obligations, documentation requirements, and reporting pathways — powered by RAG over Indian statute law.</p>
-    <div class="law-tags">
-      <span class="law-tag">IPC</span>
-      <span class="law-tag">CrPC</span>
-      <span class="law-tag">POCSO</span>
-      <span class="law-tag">MTP Act</span>
-      <span class="law-tag">JJ Act</span>
-    </div>
-  </div>
-
-  <!-- Two-column grid -->
-  <div class="main-grid">
-
-    <!-- LEFT: Form -->
-    <div>
-      <div class="card animate-in">
-        <div class="card-header">
-          <div class="card-header-icon" style="background:#FEE2E2;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2">
-              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-            </svg>
-          </div>
-          <h2>Case Intake Form</h2>
+    <!-- ── Main ── -->
+    <div class="container">
+      <!-- Hero -->
+      <div class="page-hero animate-in">
+        <h1>
+          Medico-Legal Protocol Engine<br /><span class="accent"
+            >for Indian Clinicians</span
+          >
+        </h1>
+        <p>
+          Enter anonymised case details to instantly generate structured legal
+          obligations, documentation requirements, and reporting pathways —
+          powered by RAG over Indian statute law.
+        </p>
+        <div class="law-tags">
+          <span class="law-tag">IPC</span>
+          <span class="law-tag">CrPC</span>
+          <span class="law-tag">POCSO</span>
+          <span class="law-tag">MTP Act</span>
+          <span class="law-tag">JJ Act</span>
         </div>
-        <div class="card-body">
+      </div>
 
-          <!-- Step indicator -->
-          <div class="step-indicator">
-            <div class="step active" id="step1tab" onclick="goStep(1)">1 · Patient</div>
-            <div class="step" id="step2tab" onclick="goStep(2)">2 · Injury</div>
-            <div class="step" id="step3tab" onclick="goStep(3)">3 · Legal</div>
-            <div class="step" id="step4tab" onclick="goStep(4)">4 · Doctor</div>
-          </div>
-
-          <!-- Step 1: Patient & Case -->
-          <div id="step1">
-
-            <div class="form-section">
-              <div class="section-label">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-                Case Reference
+      <!-- Two-column grid -->
+      <div class="main-grid">
+        <!-- LEFT: Form -->
+        <div>
+          <div class="card animate-in">
+            <div class="card-header">
+              <div class="card-header-icon" style="background: #fee2e2">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#C0392B"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                  />
+                </svg>
               </div>
-              <div>
-                <label>MLC / Case Reference Number <span class="req">*</span></label>
-                <input type="text" id="case_ref" placeholder="e.g. MH-2024-001" style="font-family:'IBM Plex Mono', monospace; font-size:0.82rem;" />
-                <div class="field-error" id="err_case_ref">Use uppercase alphanumeric + hyphens only (e.g. MH-12345)</div>
-              </div>
+              <h2>Case Intake Form</h2>
             </div>
-
-            <div class="form-section">
-              <div class="section-label">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-                Patient Demographics
-              </div>
-              <div class="form-row form-row-3">
-                <div>
-                  <label>Age (years) <span class="req">*</span></label>
-                  <input type="number" id="patient_age" min="0" max="120" placeholder="e.g. 24" />
+            <div class="card-body">
+              <!-- Step indicator -->
+              <div class="step-indicator">
+                <div class="step active" id="step1tab" onclick="goStep(1)">
+                  1 · Patient
                 </div>
-                <div>
-                  <label>Sex at birth <span class="req">*</span></label>
-                  <select id="sex_at_birth">
-                    <option value="">— select —</option>
-                    <option value="female">Female</option>
-                    <option value="male">Male</option>
-                    <option value="intersex">Intersex</option>
-                  </select>
+                <div class="step" id="step2tab" onclick="goStep(2)">
+                  2 · Injury
                 </div>
-                <div>
-                  <label>Marital status</label>
-                  <select id="marital_status">
-                    <option value="unknown">Unknown</option>
-                    <option value="single">Single</option>
-                    <option value="married">Married</option>
-                    <option value="divorced">Divorced</option>
-                    <option value="widowed">Widowed</option>
-                  </select>
+                <div class="step" id="step3tab" onclick="goStep(3)">
+                  3 · Legal
+                </div>
+                <div class="step" id="step4tab" onclick="goStep(4)">
+                  4 · Doctor
                 </div>
               </div>
-              <div>
-                <label>Consent capacity <span class="req">*</span></label>
-                <div class="toggle-group" id="consent_capacity_group">
-                  <button class="toggle-btn active" data-val="full" onclick="selectToggle('consent_capacity_group', this)">Full</button>
-                  <button class="toggle-btn" data-val="impaired" onclick="selectToggle('consent_capacity_group', this)">Impaired</button>
-                  <button class="toggle-btn" data-val="unconscious" onclick="selectToggle('consent_capacity_group', this)">Unconscious</button>
-                  <button class="toggle-btn" data-val="unknown" onclick="selectToggle('consent_capacity_group', this)">Unknown</button>
-                </div>
-              </div>
-            </div>
 
-            <div class="form-section">
-              <div class="section-label">Case brought by</div>
-              <div class="toggle-group" id="case_brought_by_group">
-                <button class="toggle-btn active" data-val="self" onclick="selectToggle('case_brought_by_group', this)">Self</button>
-                <button class="toggle-btn" data-val="family_member" onclick="selectToggle('case_brought_by_group', this)">Family</button>
-                <button class="toggle-btn" data-val="police" onclick="selectToggle('case_brought_by_group', this)">Police</button>
-                <button class="toggle-btn" data-val="ambulance" onclick="selectToggle('case_brought_by_group', this)">Ambulance</button>
-                <button class="toggle-btn" data-val="bystander" onclick="selectToggle('case_brought_by_group', this)">Bystander</button>
-                <button class="toggle-btn" data-val="accused" onclick="selectToggle('case_brought_by_group', this)">Accused</button>
-              </div>
-            </div>
-
-            <div style="display:flex; justify-content:flex-end;">
-              <button class="submit-btn" onclick="goStep(2)" style="width:auto; padding:9px 24px; background:var(--red);">Next: Injury &rarr;</button>
-            </div>
-          </div>
-
-          <!-- Step 2: Injury -->
-          <div id="step2" style="display:none;">
-
-            <div class="form-section">
-              <div class="section-label">Injury Types <span style="font-weight:400; color:#AAA;">(select all that apply)</span></div>
-              <div class="toggle-group" id="injury_types_group" style="row-gap:8px;">
-                <button class="toggle-btn" data-val="acid_burn" onclick="toggleMulti('injury_types_group', this)">Acid burn</button>
-                <button class="toggle-btn" data-val="physical_assault" onclick="toggleMulti('injury_types_group', this)">Physical assault</button>
-                <button class="toggle-btn" data-val="sexual_assault" onclick="toggleMulti('injury_types_group', this)">Sexual assault</button>
-                <button class="toggle-btn" data-val="self_harm" onclick="toggleMulti('injury_types_group', this)">Self harm</button>
-                <button class="toggle-btn" data-val="poisoning" onclick="toggleMulti('injury_types_group', this)">Poisoning</button>
-                <button class="toggle-btn" data-val="none_apparent" onclick="toggleMulti('injury_types_group', this)">None apparent</button>
-                <button class="toggle-btn" data-val="other" onclick="toggleMulti('injury_types_group', this)">Other</button>
-              </div>
-            </div>
-
-            <div class="form-row form-row-2">
-              <div>
-                <label>Hours since injury <span class="req">*</span></label>
-                <input type="number" id="hours_since_injury" min="0" max="720" placeholder="0–720" />
-                <div class="field-error" id="err_hours">Enter a value between 0 and 720</div>
-              </div>
-              <div>
-                <label>Injury severity <span class="req">*</span></label>
-                <select id="injury_severity">
-                  <option value="">— select —</option>
-                  <option value="minor">Minor</option>
-                  <option value="moderate">Moderate</option>
-                  <option value="serious">Serious</option>
-                  <option value="life_threatening">Life threatening</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Sexual offense section -->
-            <div class="form-section">
-              <div class="bool-row">
-                <span>Sexual offense suspected?</span>
-                <label class="switch">
-                  <input type="checkbox" id="sexual_offense" onchange="togglePanel('sexual_offense', 'sexual_offense_panel')" />
-                  <span class="switch-slider"></span>
-                </label>
-              </div>
-              <div class="conditional-panel" id="sexual_offense_panel">
-                <div class="form-row form-row-2" style="margin-bottom:0;">
+              <!-- Step 1: Patient & Case -->
+              <div id="step1">
+                <div class="form-section">
+                  <div class="section-label">
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="12" cy="8" r="4" />
+                      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                    </svg>
+                    Case Reference
+                  </div>
                   <div>
-                    <label>Perpetrator relationship</label>
-                    <select id="perp_rel">
+                    <label
+                      >MLC / Case Reference Number
+                      <span class="req">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="case_ref"
+                      placeholder="e.g. MH-2024-001"
+                      style="
+                        font-family: &quot;IBM Plex Mono&quot;, monospace;
+                        font-size: 0.82rem;
+                      "
+                    />
+                    <div class="field-error" id="err_case_ref">
+                      Use uppercase alphanumeric + hyphens only (e.g. MH-12345)
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <div class="section-label">
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="12" cy="8" r="4" />
+                      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                    </svg>
+                    Patient Demographics
+                  </div>
+                  <div class="form-row form-row-3">
+                    <div>
+                      <label>Age (years) <span class="req">*</span></label>
+                      <input
+                        type="number"
+                        id="patient_age"
+                        min="0"
+                        max="120"
+                        placeholder="e.g. 24"
+                      />
+                    </div>
+                    <div>
+                      <label>Sex at birth <span class="req">*</span></label>
+                      <select id="sex_at_birth">
+                        <option value="">— select —</option>
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="intersex">Intersex</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label>Marital status</label>
+                      <select id="marital_status">
+                        <option value="unknown">Unknown</option>
+                        <option value="single">Single</option>
+                        <option value="married">Married</option>
+                        <option value="divorced">Divorced</option>
+                        <option value="widowed">Widowed</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label>Consent capacity <span class="req">*</span></label>
+                    <div class="toggle-group" id="consent_capacity_group">
+                      <button
+                        class="toggle-btn active"
+                        data-val="full"
+                        onclick="selectToggle('consent_capacity_group', this)"
+                      >
+                        Full
+                      </button>
+                      <button
+                        class="toggle-btn"
+                        data-val="impaired"
+                        onclick="selectToggle('consent_capacity_group', this)"
+                      >
+                        Impaired
+                      </button>
+                      <button
+                        class="toggle-btn"
+                        data-val="unconscious"
+                        onclick="selectToggle('consent_capacity_group', this)"
+                      >
+                        Unconscious
+                      </button>
+                      <button
+                        class="toggle-btn"
+                        data-val="unknown"
+                        onclick="selectToggle('consent_capacity_group', this)"
+                      >
+                        Unknown
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <div class="section-label">Case brought by</div>
+                  <div class="toggle-group" id="case_brought_by_group">
+                    <button
+                      class="toggle-btn active"
+                      data-val="self"
+                      onclick="selectToggle('case_brought_by_group', this)"
+                    >
+                      Self
+                    </button>
+                    <button
+                      class="toggle-btn"
+                      data-val="family_member"
+                      onclick="selectToggle('case_brought_by_group', this)"
+                    >
+                      Family
+                    </button>
+                    <button
+                      class="toggle-btn"
+                      data-val="police"
+                      onclick="selectToggle('case_brought_by_group', this)"
+                    >
+                      Police
+                    </button>
+                    <button
+                      class="toggle-btn"
+                      data-val="ambulance"
+                      onclick="selectToggle('case_brought_by_group', this)"
+                    >
+                      Ambulance
+                    </button>
+                    <button
+                      class="toggle-btn"
+                      data-val="bystander"
+                      onclick="selectToggle('case_brought_by_group', this)"
+                    >
+                      Bystander
+                    </button>
+                    <button
+                      class="toggle-btn"
+                      data-val="accused"
+                      onclick="selectToggle('case_brought_by_group', this)"
+                    >
+                      Accused
+                    </button>
+                  </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end">
+                  <button
+                    class="submit-btn"
+                    onclick="goStep(2)"
+                    style="
+                      width: auto;
+                      padding: 9px 24px;
+                      background: var(--red);
+                    "
+                  >
+                    Next: Injury &rarr;
+                  </button>
+                </div>
+              </div>
+
+              <!-- Step 2: Injury -->
+              <div id="step2" style="display: none">
+                <div class="form-section">
+                  <div class="section-label">
+                    Injury Types
+                    <span style="font-weight: 400; color: #aaa"
+                      >(select all that apply)</span
+                    >
+                  </div>
+                  <div
+                    class="toggle-group"
+                    id="injury_types_group"
+                    style="row-gap: 8px"
+                  >
+                    <button
+                      class="toggle-btn"
+                      data-val="acid_burn"
+                      onclick="toggleMulti('injury_types_group', this)"
+                    >
+                      Acid burn
+                    </button>
+                    <button
+                      class="toggle-btn"
+                      data-val="physical_assault"
+                      onclick="toggleMulti('injury_types_group', this)"
+                    >
+                      Physical assault
+                    </button>
+                    <button
+                      class="toggle-btn"
+                      data-val="sexual_assault"
+                      onclick="toggleMulti('injury_types_group', this)"
+                    >
+                      Sexual assault
+                    </button>
+                    <button
+                      class="toggle-btn"
+                      data-val="self_harm"
+                      onclick="toggleMulti('injury_types_group', this)"
+                    >
+                      Self harm
+                    </button>
+                    <button
+                      class="toggle-btn"
+                      data-val="poisoning"
+                      onclick="toggleMulti('injury_types_group', this)"
+                    >
+                      Poisoning
+                    </button>
+                    <button
+                      class="toggle-btn"
+                      data-val="none_apparent"
+                      onclick="toggleMulti('injury_types_group', this)"
+                    >
+                      None apparent
+                    </button>
+                    <button
+                      class="toggle-btn"
+                      data-val="other"
+                      onclick="toggleMulti('injury_types_group', this)"
+                    >
+                      Other
+                    </button>
+                  </div>
+                </div>
+
+                <div class="form-row form-row-2">
+                  <div>
+                    <label>Hours since injury <span class="req">*</span></label>
+                    <input
+                      type="number"
+                      id="hours_since_injury"
+                      min="0"
+                      max="720"
+                      placeholder="0–720"
+                    />
+                    <div class="field-error" id="err_hours">
+                      Enter a value between 0 and 720
+                    </div>
+                  </div>
+                  <div>
+                    <label>Injury severity <span class="req">*</span></label>
+                    <select id="injury_severity">
+                      <option value="">— select —</option>
+                      <option value="minor">Minor</option>
+                      <option value="moderate">Moderate</option>
+                      <option value="serious">Serious</option>
+                      <option value="life_threatening">Life threatening</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Sexual offense section -->
+                <div class="form-section">
+                  <div class="bool-row">
+                    <span>Sexual offense suspected?</span>
+                    <label class="switch">
+                      <input
+                        type="checkbox"
+                        id="sexual_offense"
+                        onchange="
+                          togglePanel('sexual_offense', 'sexual_offense_panel')
+                        "
+                      />
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+                  <div class="conditional-panel" id="sexual_offense_panel">
+                    <div class="form-row form-row-2" style="margin-bottom: 0">
+                      <div>
+                        <label>Perpetrator relationship</label>
+                        <select id="perp_rel">
+                          <option value="unknown">Unknown</option>
+                          <option value="stranger">Stranger</option>
+                          <option value="known_non_family">
+                            Known, non-family
+                          </option>
+                          <option value="intimate_partner">
+                            Intimate partner
+                          </option>
+                          <option value="family_member">Family member</option>
+                          <option value="spouse">Spouse</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label>Perpetrator age group</label>
+                        <select id="perp_age">
+                          <option value="unknown">Unknown</option>
+                          <option value="minor_under_18">Minor (&lt;18)</option>
+                          <option value="adult_18_to_60">Adult (18–60)</option>
+                          <option value="senior_above_60">
+                            Senior (&gt;60)
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="bool-row" style="margin-top: 10px">
+                      <span style="font-size: 0.8rem"
+                        >Perpetrator present at hospital?</span
+                      >
+                      <label class="switch">
+                        <input type="checkbox" id="perp_at_hosp" />
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Pregnancy section -->
+                <div class="form-section">
+                  <div class="bool-row">
+                    <span>Pregnancy confirmed?</span>
+                    <label class="switch">
+                      <input
+                        type="checkbox"
+                        id="pregnancy"
+                        onchange="togglePanel('pregnancy', 'pregnancy_panel')"
+                      />
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+                  <div class="conditional-panel" id="pregnancy_panel">
+                    <div class="form-row form-row-2" style="margin-bottom: 8px">
+                      <div>
+                        <label>Gestational age (weeks)</label>
+                        <input
+                          type="number"
+                          id="gest_weeks"
+                          min="1"
+                          max="42"
+                          placeholder="1–42"
+                        />
+                      </div>
+                      <div>
+                        <label>Pregnancy origin</label>
+                        <select id="preg_origin">
+                          <option value="unknown">Unknown</option>
+                          <option value="consensual">Consensual</option>
+                          <option value="alleged_assault">
+                            Alleged assault
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="bool-row">
+                      <span style="font-size: 0.8rem"
+                        >MTP (termination) requested?</span
+                      >
+                      <label class="switch">
+                        <input type="checkbox" id="mtp_req" />
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  style="
+                    display: flex;
+                    gap: 10px;
+                    justify-content: space-between;
+                  "
+                >
+                  <button
+                    class="submit-btn"
+                    onclick="goStep(1)"
+                    style="
+                      width: auto;
+                      padding: 9px 20px;
+                      background: var(--muted);
+                    "
+                  >
+                    &larr; Back
+                  </button>
+                  <button
+                    class="submit-btn"
+                    onclick="goStep(3)"
+                    style="
+                      width: auto;
+                      padding: 9px 24px;
+                      background: var(--red);
+                    "
+                  >
+                    Next: Legal &rarr;
+                  </button>
+                </div>
+              </div>
+
+              <!-- Step 3: Legal & Consent -->
+              <div id="step3" style="display: none">
+                <div class="form-section">
+                  <div class="section-label">Legal Status</div>
+                  <div class="bool-row">
+                    <span>FIR filed?</span>
+                    <label class="switch"
+                      ><input type="checkbox" id="fir_filed" /><span
+                        class="switch-slider"
+                      ></span
+                    ></label>
+                  </div>
+                  <div class="bool-row">
+                    <span>Police notified?</span>
+                    <label class="switch"
+                      ><input type="checkbox" id="police_notified" /><span
+                        class="switch-slider"
+                      ></span
+                    ></label>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <div class="section-label">Consent</div>
+                  <div class="bool-row">
+                    <span>Patient consents to examination?</span>
+                    <label class="switch"
+                      ><input type="checkbox" id="cons_exam" checked /><span
+                        class="switch-slider"
+                      ></span
+                    ></label>
+                  </div>
+                  <div class="bool-row">
+                    <span>Patient consents to police intimation?</span>
+                    <label class="switch"
+                      ><input type="checkbox" id="cons_police" /><span
+                        class="switch-slider"
+                      ></span
+                    ></label>
+                  </div>
+                  <div class="bool-row">
+                    <span>Patient consents to parental notification?</span>
+                    <label class="switch"
+                      ><input type="checkbox" id="cons_parent" /><span
+                        class="switch-slider"
+                      ></span
+                    ></label>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <div class="section-label">Guardian</div>
+                  <div class="bool-row">
+                    <span>Guardian present?</span>
+                    <label class="switch"
+                      ><input
+                        type="checkbox"
+                        id="guardian_present"
+                        onchange="
+                          togglePanel('guardian_present', 'guardian_panel')
+                        " /><span class="switch-slider"></span
+                    ></label>
+                  </div>
+                  <div class="conditional-panel" id="guardian_panel">
+                    <label>Guardian relationship</label>
+                    <select id="guardian_rel">
                       <option value="unknown">Unknown</option>
-                      <option value="stranger">Stranger</option>
-                      <option value="known_non_family">Known, non-family</option>
-                      <option value="intimate_partner">Intimate partner</option>
-                      <option value="family_member">Family member</option>
+                      <option value="parent">Parent</option>
                       <option value="spouse">Spouse</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label>Perpetrator age group</label>
-                    <select id="perp_age">
-                      <option value="unknown">Unknown</option>
-                      <option value="minor_under_18">Minor (&lt;18)</option>
-                      <option value="adult_18_to_60">Adult (18–60)</option>
-                      <option value="senior_above_60">Senior (&gt;60)</option>
+                      <option value="sibling">Sibling</option>
+                      <option value="court_appointed">Court appointed</option>
+                      <option value="cwc">CWC</option>
+                      <option value="none">None</option>
                     </select>
                   </div>
                 </div>
-                <div class="bool-row" style="margin-top:10px;">
-                  <span style="font-size:0.8rem;">Perpetrator present at hospital?</span>
-                  <label class="switch">
-                    <input type="checkbox" id="perp_at_hosp" />
-                    <span class="switch-slider"></span>
-                  </label>
-                </div>
-              </div>
-            </div>
 
-            <!-- Pregnancy section -->
-            <div class="form-section">
-              <div class="bool-row">
-                <span>Pregnancy confirmed?</span>
-                <label class="switch">
-                  <input type="checkbox" id="pregnancy" onchange="togglePanel('pregnancy', 'pregnancy_panel')" />
-                  <span class="switch-slider"></span>
-                </label>
-              </div>
-              <div class="conditional-panel" id="pregnancy_panel">
-                <div class="form-row form-row-2" style="margin-bottom:8px;">
-                  <div>
-                    <label>Gestational age (weeks)</label>
-                    <input type="number" id="gest_weeks" min="1" max="42" placeholder="1–42" />
+                <div class="form-section">
+                  <div class="section-label">Case Flags</div>
+                  <div class="bool-row">
+                    <span
+                      >Dowry context suspected?
+                      <span style="color: var(--muted); font-size: 0.74rem"
+                        >(IPC 498A / 304B)</span
+                      ></span
+                    >
+                    <label class="switch"
+                      ><input type="checkbox" id="flag_dowry" /><span
+                        class="switch-slider"
+                      ></span
+                    ></label>
                   </div>
-                  <div>
-                    <label>Pregnancy origin</label>
-                    <select id="preg_origin">
-                      <option value="unknown">Unknown</option>
-                      <option value="consensual">Consensual</option>
-                      <option value="alleged_assault">Alleged assault</option>
-                    </select>
+                  <div class="bool-row">
+                    <span
+                      >Death or near-death?
+                      <span style="color: var(--muted); font-size: 0.74rem"
+                        >(CrPC 174)</span
+                      ></span
+                    >
+                    <label class="switch"
+                      ><input type="checkbox" id="flag_death" /><span
+                        class="switch-slider"
+                      ></span
+                    ></label>
+                  </div>
+                  <div class="bool-row">
+                    <span>Notifiable disease suspected?</span>
+                    <label class="switch"
+                      ><input type="checkbox" id="flag_disease" /><span
+                        class="switch-slider"
+                      ></span
+                    ></label>
                   </div>
                 </div>
-                <div class="bool-row">
-                  <span style="font-size:0.8rem;">MTP (termination) requested?</span>
-                  <label class="switch">
-                    <input type="checkbox" id="mtp_req" />
-                    <span class="switch-slider"></span>
-                  </label>
+
+                <div
+                  style="
+                    display: flex;
+                    gap: 10px;
+                    justify-content: space-between;
+                  "
+                >
+                  <button
+                    class="submit-btn"
+                    onclick="goStep(2)"
+                    style="
+                      width: auto;
+                      padding: 9px 20px;
+                      background: var(--muted);
+                    "
+                  >
+                    &larr; Back
+                  </button>
+                  <button
+                    class="submit-btn"
+                    onclick="goStep(4)"
+                    style="
+                      width: auto;
+                      padding: 9px 24px;
+                      background: var(--red);
+                    "
+                  >
+                    Next: Doctor &rarr;
+                  </button>
+                </div>
+              </div>
+
+              <!-- Step 4: Doctor + Submit -->
+              <div id="step4" style="display: none">
+                <div class="form-section">
+                  <div class="section-label">Treating Doctor</div>
+                  <div class="form-row form-row-2">
+                    <div>
+                      <label
+                        >MCI / NMC Reg. No. <span class="req">*</span></label
+                      >
+                      <input
+                        type="text"
+                        id="mci_no"
+                        placeholder="e.g. MH123456"
+                        style="
+                          font-family: &quot;IBM Plex Mono&quot;, monospace;
+                          font-size: 0.82rem;
+                        "
+                      />
+                      <div class="field-error" id="err_mci">
+                        Format: 1–3 uppercase letters + 4–8 digits
+                      </div>
+                    </div>
+                    <div>
+                      <label>Hospital type <span class="req">*</span></label>
+                      <select id="hospital_type">
+                        <option value="">— select —</option>
+                        <option value="government">Government</option>
+                        <option value="private">Private</option>
+                        <option value="clinic">Clinic</option>
+                        <option value="ngo_facility">NGO Facility</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="bool-row" style="margin-top: 6px">
+                    <span
+                      >First medical contact for this patient?
+                      <span style="color: var(--muted); font-size: 0.74rem"
+                        >(affects POCSO S.19)</span
+                      ></span
+                    >
+                    <label class="switch"
+                      ><input type="checkbox" id="first_contact" checked /><span
+                        class="switch-slider"
+                      ></span
+                    ></label>
+                  </div>
+                </div>
+
+                <!-- Symptoms / free text -->
+                <div class="form-section">
+                  <div class="section-label">Clinical Context (for RAG)</div>
+                  <label
+                    >Symptoms / case description
+                    <span class="req">*</span></label
+                  >
+                  <textarea
+                    id="symptoms"
+                    rows="3"
+                    placeholder="Brief clinical description — used to retrieve relevant statute sections. No PII."
+                  ></textarea>
+                </div>
+
+                <div class="alert-banner warning" style="margin-bottom: 1rem">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    style="flex-shrink: 0; margin-top: 1px"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                  </svg>
+                  <span
+                    >No PII is transmitted or stored. Case reference numbers
+                    only. Confirm before submitting.</span
+                  >
+                </div>
+
+                <div id="formError" class="error-box">
+                  <strong>Validation error:</strong>
+                  <span id="formErrorMsg"></span>
+                </div>
+
+                <div
+                  style="
+                    display: flex;
+                    gap: 10px;
+                    justify-content: space-between;
+                    margin-top: 0.5rem;
+                  "
+                >
+                  <button
+                    class="submit-btn"
+                    onclick="goStep(3)"
+                    style="
+                      width: auto;
+                      padding: 9px 20px;
+                      background: var(--muted);
+                    "
+                  >
+                    &larr; Back
+                  </button>
+                  <button
+                    class="submit-btn pulse-active"
+                    id="analyzeBtn"
+                    onclick="submitCase()"
+                    style="background: var(--red); flex: 1"
+                  >
+                    <span class="btn-text">Generate Protocol →</span>
+                    <div class="spinner"></div>
+                  </button>
                 </div>
               </div>
             </div>
-
-            <div style="display:flex; gap:10px; justify-content:space-between;">
-              <button class="submit-btn" onclick="goStep(1)" style="width:auto; padding:9px 20px; background:var(--muted);">&larr; Back</button>
-              <button class="submit-btn" onclick="goStep(3)" style="width:auto; padding:9px 24px; background:var(--red);">Next: Legal &rarr;</button>
-            </div>
           </div>
-
-          <!-- Step 3: Legal & Consent -->
-          <div id="step3" style="display:none;">
-
-            <div class="form-section">
-              <div class="section-label">Legal Status</div>
-              <div class="bool-row">
-                <span>FIR filed?</span>
-                <label class="switch"><input type="checkbox" id="fir_filed" /><span class="switch-slider"></span></label>
-              </div>
-              <div class="bool-row">
-                <span>Police notified?</span>
-                <label class="switch"><input type="checkbox" id="police_notified" /><span class="switch-slider"></span></label>
-              </div>
-            </div>
-
-            <div class="form-section">
-              <div class="section-label">Consent</div>
-              <div class="bool-row">
-                <span>Patient consents to examination?</span>
-                <label class="switch"><input type="checkbox" id="cons_exam" checked /><span class="switch-slider"></span></label>
-              </div>
-              <div class="bool-row">
-                <span>Patient consents to police intimation?</span>
-                <label class="switch"><input type="checkbox" id="cons_police" /><span class="switch-slider"></span></label>
-              </div>
-              <div class="bool-row">
-                <span>Patient consents to parental notification?</span>
-                <label class="switch"><input type="checkbox" id="cons_parent" /><span class="switch-slider"></span></label>
-              </div>
-            </div>
-
-            <div class="form-section">
-              <div class="section-label">Guardian</div>
-              <div class="bool-row">
-                <span>Guardian present?</span>
-                <label class="switch"><input type="checkbox" id="guardian_present" onchange="togglePanel('guardian_present', 'guardian_panel')" /><span class="switch-slider"></span></label>
-              </div>
-              <div class="conditional-panel" id="guardian_panel">
-                <label>Guardian relationship</label>
-                <select id="guardian_rel">
-                  <option value="unknown">Unknown</option>
-                  <option value="parent">Parent</option>
-                  <option value="spouse">Spouse</option>
-                  <option value="sibling">Sibling</option>
-                  <option value="court_appointed">Court appointed</option>
-                  <option value="cwc">CWC</option>
-                  <option value="none">None</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-section">
-              <div class="section-label">Case Flags</div>
-              <div class="bool-row">
-                <span>Dowry context suspected? <span style="color:var(--muted);font-size:0.74rem;">(IPC 498A / 304B)</span></span>
-                <label class="switch"><input type="checkbox" id="flag_dowry" /><span class="switch-slider"></span></label>
-              </div>
-              <div class="bool-row">
-                <span>Death or near-death? <span style="color:var(--muted);font-size:0.74rem;">(CrPC 174)</span></span>
-                <label class="switch"><input type="checkbox" id="flag_death" /><span class="switch-slider"></span></label>
-              </div>
-              <div class="bool-row">
-                <span>Notifiable disease suspected?</span>
-                <label class="switch"><input type="checkbox" id="flag_disease" /><span class="switch-slider"></span></label>
-              </div>
-            </div>
-
-            <div style="display:flex; gap:10px; justify-content:space-between;">
-              <button class="submit-btn" onclick="goStep(2)" style="width:auto; padding:9px 20px; background:var(--muted);">&larr; Back</button>
-              <button class="submit-btn" onclick="goStep(4)" style="width:auto; padding:9px 24px; background:var(--red);">Next: Doctor &rarr;</button>
-            </div>
-          </div>
-
-          <!-- Step 4: Doctor + Submit -->
-          <div id="step4" style="display:none;">
-
-            <div class="form-section">
-              <div class="section-label">Treating Doctor</div>
-              <div class="form-row form-row-2">
-                <div>
-                  <label>MCI / NMC Reg. No. <span class="req">*</span></label>
-                  <input type="text" id="mci_no" placeholder="e.g. MH123456" style="font-family:'IBM Plex Mono',monospace;font-size:0.82rem;" />
-                  <div class="field-error" id="err_mci">Format: 1–3 uppercase letters + 4–8 digits</div>
-                </div>
-                <div>
-                  <label>Hospital type <span class="req">*</span></label>
-                  <select id="hospital_type">
-                    <option value="">— select —</option>
-                    <option value="government">Government</option>
-                    <option value="private">Private</option>
-                    <option value="clinic">Clinic</option>
-                    <option value="ngo_facility">NGO Facility</option>
-                  </select>
-                </div>
-              </div>
-              <div class="bool-row" style="margin-top:6px;">
-                <span>First medical contact for this patient? <span style="color:var(--muted);font-size:0.74rem;">(affects POCSO S.19)</span></span>
-                <label class="switch"><input type="checkbox" id="first_contact" checked /><span class="switch-slider"></span></label>
-              </div>
-            </div>
-
-            <!-- Symptoms / free text -->
-            <div class="form-section">
-              <div class="section-label">Clinical Context (for RAG)</div>
-              <label>Symptoms / case description <span class="req">*</span></label>
-              <textarea id="symptoms" rows="3" placeholder="Brief clinical description — used to retrieve relevant statute sections. No PII."></textarea>
-            </div>
-
-            <div class="alert-banner warning" style="margin-bottom:1rem;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              <span>No PII is transmitted or stored. Case reference numbers only. Confirm before submitting.</span>
-            </div>
-
-            <div id="formError" class="error-box">
-              <strong>Validation error:</strong> <span id="formErrorMsg"></span>
-            </div>
-
-            <div style="display:flex; gap:10px; justify-content:space-between; margin-top:0.5rem;">
-              <button class="submit-btn" onclick="goStep(3)" style="width:auto; padding:9px 20px; background:var(--muted);">&larr; Back</button>
-              <button class="submit-btn pulse-active" id="analyzeBtn" onclick="submitCase()" style="background:var(--red); flex:1;">
-                <span class="btn-text">Generate Protocol →</span>
-                <div class="spinner"></div>
-              </button>
-            </div>
-          </div>
-
         </div>
+
+        <!-- RIGHT: Results -->
+        <div>
+          <div class="card animate-in" style="animation-delay: 0.1s">
+            <div class="card-header">
+              <div class="card-header-icon" style="background: #d1fae5">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#065F46"
+                  stroke-width="2"
+                >
+                  <polyline points="9 11 12 14 22 4" />
+                  <path
+                    d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"
+                  />
+                </svg>
+              </div>
+              <h2>Generated Protocol</h2>
+            </div>
+            <div class="card-body">
+              <!-- Placeholder -->
+              <div id="resultsPlaceholder" class="results-placeholder">
+                <svg
+                  width="48"
+                  height="48"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.2"
+                >
+                  <path
+                    d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"
+                  />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <polyline points="10 9 9 9 8 9" />
+                </svg>
+                <p>
+                  Complete the intake form and submit to generate a structured
+                  medico-legal protocol based on Indian statute law.
+                </p>
+              </div>
+
+              <!-- Results -->
+              <div class="results-panel" id="resultsPanel">
+                <!-- Alert for minor -->
+                <div
+                  class="alert-banner danger"
+                  id="minorAlert"
+                  style="display: none"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    style="flex-shrink: 0; margin-top: 1px"
+                  >
+                    <path
+                      d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+                    />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                  </svg>
+                  <span
+                    ><strong>POCSO applies.</strong> Patient is a minor.
+                    Mandatory reporting under POCSO S.19 is required regardless
+                    of consent. Notify CWC immediately.</span
+                  >
+                </div>
+
+                <!-- Alert for abstention (low retrieval confidence) -->
+                <div
+                  class="alert-banner warning"
+                  id="abstainAlert"
+                  style="display: none"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    style="flex-shrink: 0; margin-top: 1px"
+                  >
+                    <path
+                      d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+                    />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                  </svg>
+                  <span
+                    ><strong>Confidence low.</strong>
+                    <span id="abstainAlertMsg"
+                      >Insufficient legal context retrieved to provide a safe
+                      answer.</span
+                    ></span
+                  >
+                </div>
+
+                <!-- Confidence badge -->
+                <div
+                  id="confidenceBadge"
+                  class="confidence-badge"
+                  style="display: none"
+                >
+                  <span class="dot"></span>
+                  <span id="confidenceBadgeText">—</span>
+                </div>
+
+                <!-- Meta row -->
+                <div class="result-meta">
+                  <div class="meta-card">
+                    <div class="meta-label">Session ID</div>
+                    <div
+                      class="meta-value"
+                      id="r_session"
+                      style="
+                        font-family: &quot;IBM Plex Mono&quot;, monospace;
+                        font-size: 0.75rem;
+                      "
+                    >
+                      —
+                    </div>
+                  </div>
+                  <div class="meta-card">
+                    <div class="meta-label">Patient Status</div>
+                    <div class="meta-value" id="r_minor">—</div>
+                  </div>
+                  <div class="meta-card">
+                    <div class="meta-label">Laws Retrieved</div>
+                    <div class="meta-value" id="r_law_count">—</div>
+                  </div>
+                </div>
+
+                <!-- Everything below only makes sense when not abstained -->
+                <div id="normalResultsContent">
+                  <!-- Laws retrieved -->
+                  <div>
+                    <div class="section-label">Statutes Identified</div>
+                    <div class="laws-retrieved" id="r_laws"></div>
+                  </div>
+
+                  <div class="divider"></div>
+
+                  <!-- Checklist: Legal obligations -->
+                  <div class="checklist-section">
+                    <div class="checklist-header cl-legal">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <rect
+                          x="2"
+                          y="7"
+                          width="20"
+                          height="14"
+                          rx="2"
+                          ry="2"
+                        />
+                        <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+                      </svg>
+                      Legal obligations
+                    </div>
+                    <div class="checklist-items" id="cl_legal"></div>
+                  </div>
+
+                  <!-- Checklist: Medical actions -->
+                  <div class="checklist-section">
+                    <div class="checklist-header cl-medical">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                      </svg>
+                      Required medical actions
+                    </div>
+                    <div class="checklist-items" id="cl_medical"></div>
+                  </div>
+
+                  <!-- Checklist: Documentation -->
+                  <div class="checklist-section">
+                    <div class="checklist-header cl-docs">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"
+                        />
+                        <polyline points="14 2 14 8 20 8" />
+                      </svg>
+                      Documentation required
+                    </div>
+                    <div class="checklist-items" id="cl_docs"></div>
+                  </div>
+
+                  <!-- Checklist: Whom to inform -->
+                  <div class="checklist-section">
+                    <div class="checklist-header cl-inform">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.22 2 2 0 012.18 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.72 6.72l1.06-1.06a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"
+                        />
+                      </svg>
+                      Whom to inform
+                    </div>
+                    <div class="checklist-items" id="cl_inform"></div>
+                  </div>
+                </div>
+                <!-- /normalResultsContent -->
+
+                <!-- Reset -->
+                <button
+                  class="submit-btn"
+                  onclick="resetForm()"
+                  style="
+                    background: var(--cream-3);
+                    color: var(--ink);
+                    border: 1px solid var(--border);
+                    margin-top: 0.25rem;
+                  "
+                >
+                  Start New Case
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-info">
+        <p>
+          MediLex India · Medico-Legal Protocol Engine · Hackathon Build 2024
+        </p>
+        <p>
+          For Indian clinicians. No PII stored. Powered by RAG over IPC, CrPC,
+          POCSO, MTP Act, and JJ Act.
+        </p>
+        <p style="margin-top: 6px">
+          <a href="http://localhost:8000/docs" target="_blank"
+            >API Docs (Swagger)</a
+          >
+          · Built on FastAPI + ChromaDB + Claude Sonnet
+        </p>
       </div>
     </div>
 
-    <!-- RIGHT: Results -->
-    <div>
-      <div class="card animate-in" style="animation-delay:0.1s;">
-        <div class="card-header">
-          <div class="card-header-icon" style="background:#D1FAE5;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2">
-              <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
-            </svg>
-          </div>
-          <h2>Generated Protocol</h2>
-        </div>
-        <div class="card-body">
+    <script>
+      // file:// = frontend.html opened directly as a local file (existing dev workflow,
+      // unchanged) -> point at localhost:8000. http(s):// = served by main.py's own
+      // root route (local `python main.py` visited via browser, or any real deployment)
+      // -> same-origin relative paths. A hardcoded localhost:8000 here would silently
+      // break on every real deployment, since the browser would try to reach the
+      // visitor's own machine, not the deployed server.
+      const API_BASE =
+        window.location.protocol === "file:" ? "http://localhost:8000" : "";
 
-          <!-- Placeholder -->
-          <div id="resultsPlaceholder" class="results-placeholder">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
-              <polyline points="10 9 9 9 8 9"/>
-            </svg>
-            <p>Complete the intake form and submit to generate a structured medico-legal protocol based on Indian statute law.</p>
-          </div>
+      /* ── Step navigation ── */
+      let currentStep = 1;
 
-          <!-- Results -->
-          <div class="results-panel" id="resultsPanel">
+      function goStep(n) {
+        document.getElementById("step" + currentStep).style.display = "none";
+        document.getElementById("step" + n).style.display = "block";
+        document.querySelectorAll(".step-indicator .step").forEach((el, i) => {
+          el.classList.remove("active");
+          if (i + 1 < n) el.classList.add("done");
+          else el.classList.remove("done");
+        });
+        document.getElementById("step" + n + "tab").classList.add("active");
+        currentStep = n;
+      }
 
-            <!-- Alert for minor -->
-            <div class="alert-banner danger" id="minorAlert" style="display:none;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:1px;"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              <span><strong>POCSO applies.</strong> Patient is a minor. Mandatory reporting under POCSO S.19 is required regardless of consent. Notify CWC immediately.</span>
-            </div>
+      /* ── Toggle helpers ── */
+      function selectToggle(groupId, btn) {
+        document
+          .querySelectorAll("#" + groupId + " .toggle-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+      }
 
-            <!-- Meta row -->
-            <div class="result-meta">
-              <div class="meta-card">
-                <div class="meta-label">Session ID</div>
-                <div class="meta-value" id="r_session" style="font-family:'IBM Plex Mono',monospace; font-size:0.75rem;">—</div>
-              </div>
-              <div class="meta-card">
-                <div class="meta-label">Patient Status</div>
-                <div class="meta-value" id="r_minor">—</div>
-              </div>
-              <div class="meta-card">
-                <div class="meta-label">Laws Retrieved</div>
-                <div class="meta-value" id="r_law_count">—</div>
-              </div>
-            </div>
+      function toggleMulti(groupId, btn) {
+        btn.classList.toggle("active");
+      }
 
-            <!-- Laws retrieved -->
-            <div>
-              <div class="section-label">Statutes Identified</div>
-              <div class="laws-retrieved" id="r_laws"></div>
-            </div>
+      function togglePanel(checkboxId, panelId) {
+        const checked = document.getElementById(checkboxId).checked;
+        document.getElementById(panelId).classList.toggle("show", checked);
+      }
 
-            <div class="divider"></div>
+      function getToggleVal(groupId) {
+        const active = document.querySelector(
+          "#" + groupId + " .toggle-btn.active",
+        );
+        return active ? active.dataset.val : null;
+      }
 
-            <!-- Checklist: Legal obligations -->
-            <div class="checklist-section">
-              <div class="checklist-header cl-legal">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
-                Legal obligations
-              </div>
-              <div class="checklist-items" id="cl_legal"></div>
-            </div>
+      function getMultiToggleVals(groupId) {
+        return Array.from(
+          document.querySelectorAll("#" + groupId + " .toggle-btn.active"),
+        ).map((b) => b.dataset.val);
+      }
 
-            <!-- Checklist: Medical actions -->
-            <div class="checklist-section">
-              <div class="checklist-header cl-medical">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                Required medical actions
-              </div>
-              <div class="checklist-items" id="cl_medical"></div>
-            </div>
+      /* ── Stats modal ── */
+      function openStats() {
+        document.getElementById("statsModal").classList.add("show");
+        fetchStats();
+      }
 
-            <!-- Checklist: Documentation -->
-            <div class="checklist-section">
-              <div class="checklist-header cl-docs">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                Documentation required
-              </div>
-              <div class="checklist-items" id="cl_docs"></div>
-            </div>
+      function closeStats() {
+        document.getElementById("statsModal").classList.remove("show");
+      }
 
-            <!-- Checklist: Whom to inform -->
-            <div class="checklist-section">
-              <div class="checklist-header cl-inform">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.22 2 2 0 012.18 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.72 6.72l1.06-1.06a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-                Whom to inform
-              </div>
-              <div class="checklist-items" id="cl_inform"></div>
-            </div>
+      async function fetchStats() {
+        const el = document.getElementById("statsContent");
+        try {
+          const res = await fetch(API_BASE + "/api/stats");
+          if (!res.ok) throw new Error("Server error");
+          const data = await res.json();
+          el.innerHTML = Object.entries(data)
+            .map(
+              ([k, v]) =>
+                `<div class="stat-row"><span class="stat-label">${k.replace(/_/g, " ")}</span><span class="stat-val">${v}</span></div>`,
+            )
+            .join("");
+        } catch {
+          el.innerHTML =
+            '<div style="text-align:center;padding:1rem;font-size:0.82rem;color:var(--muted);">Could not connect to API. Is the server running on <code>localhost:8000</code>?</div>';
+        }
+      }
 
-            <!-- Reset -->
-            <button class="submit-btn" onclick="resetForm()" style="background:var(--cream-3); color:var(--ink); border:1px solid var(--border); margin-top:0.25rem;">
-              Start New Case
-            </button>
+      document
+        .getElementById("statsModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeStats();
+        });
 
-          </div>
-        </div>
-      </div>
-    </div>
+      /* ── Validation ── */
+      function validate() {
+        let ok = true;
 
-  </div>
+        const caseRef = document.getElementById("case_ref").value.trim();
+        const caseRefErr = document.getElementById("err_case_ref");
+        if (!caseRef || !/^[A-Z0-9\-]+$/.test(caseRef)) {
+          caseRefErr.classList.add("show");
+          ok = false;
+        } else {
+          caseRefErr.classList.remove("show");
+        }
 
-  <div class="bottom-info">
-    <p>MediLex India · Medico-Legal Protocol Engine · Hackathon Build 2024</p>
-    <p>For Indian clinicians. No PII stored. Powered by RAG over IPC, CrPC, POCSO, MTP Act, and JJ Act.</p>
-    <p style="margin-top:6px;"><a href="http://localhost:8000/docs" target="_blank">API Docs (Swagger)</a> · Built on FastAPI + ChromaDB + Claude Sonnet</p>
-  </div>
-</div>
+        const age = document.getElementById("patient_age").value;
+        if (!age || age < 0 || age > 120) {
+          ok = false;
+        }
 
-<script>
-const API_BASE = 'http://localhost:8000';
+        const hours = document.getElementById("hours_since_injury").value;
+        const hoursErr = document.getElementById("err_hours");
+        if (hours === "" || hours < 0 || hours > 720) {
+          hoursErr.classList.add("show");
+          ok = false;
+        } else {
+          hoursErr.classList.remove("show");
+        }
 
-/* ── Step navigation ── */
-let currentStep = 1;
+        const mci = document.getElementById("mci_no").value.trim();
+        const mciErr = document.getElementById("err_mci");
+        if (!mci || !/^[A-Z]{1,3}[0-9]{4,8}$/.test(mci)) {
+          mciErr.classList.add("show");
+          ok = false;
+        } else {
+          mciErr.classList.remove("show");
+        }
 
-function goStep(n) {
-  document.getElementById('step' + currentStep).style.display = 'none';
-  document.getElementById('step' + n).style.display = 'block';
-  document.querySelectorAll('.step-indicator .step').forEach((el, i) => {
-    el.classList.remove('active');
-    if (i + 1 < n) el.classList.add('done');
-    else el.classList.remove('done');
-  });
-  document.getElementById('step' + n + 'tab').classList.add('active');
-  currentStep = n;
-}
+        const symptoms = document.getElementById("symptoms").value.trim();
+        if (!symptoms) {
+          ok = false;
+        }
 
-/* ── Toggle helpers ── */
-function selectToggle(groupId, btn) {
-  document.querySelectorAll('#' + groupId + ' .toggle-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-}
+        if (getMultiToggleVals("injury_types_group").length === 0) {
+          ok = false;
+        }
 
-function toggleMulti(groupId, btn) {
-  btn.classList.toggle('active');
-}
+        return ok;
+      }
 
-function togglePanel(checkboxId, panelId) {
-  const checked = document.getElementById(checkboxId).checked;
-  document.getElementById(panelId).classList.toggle('show', checked);
-}
+      function showFormError(msg) {
+        const el = document.getElementById("formError");
+        document.getElementById("formErrorMsg").textContent = msg;
+        el.classList.add("show");
+      }
 
-function getToggleVal(groupId) {
-  const active = document.querySelector('#' + groupId + ' .toggle-btn.active');
-  return active ? active.dataset.val : null;
-}
+      function hideFormError() {
+        document.getElementById("formError").classList.remove("show");
+      }
 
-function getMultiToggleVals(groupId) {
-  return Array.from(document.querySelectorAll('#' + groupId + ' .toggle-btn.active')).map(b => b.dataset.val);
-}
+      /* ── Build payload ── */
+      function buildPayload() {
+        const sexual = document.getElementById("sexual_offense").checked;
+        const preg = document.getElementById("pregnancy").checked;
+        const guardPresent =
+          document.getElementById("guardian_present").checked;
 
-/* ── Stats modal ── */
-function openStats() {
-  document.getElementById('statsModal').classList.add('show');
-  fetchStats();
-}
+        return {
+          case_reference_number: document
+            .getElementById("case_ref")
+            .value.trim()
+            .toUpperCase(),
+          patient: {
+            age: parseInt(document.getElementById("patient_age").value),
+            sex_at_birth: document.getElementById("sex_at_birth").value,
+            marital_status: document.getElementById("marital_status").value,
+            consent_capacity:
+              getToggleVal("consent_capacity_group") || "unknown",
+          },
+          injury: {
+            injury_types: getMultiToggleVals("injury_types_group"),
+            hours_since_injury: parseInt(
+              document.getElementById("hours_since_injury").value,
+            ),
+            injury_severity:
+              document.getElementById("injury_severity").value || "moderate",
+          },
+          sexual_offense: {
+            sexual_offense_suspected: sexual,
+            perpetrator_relationship: sexual
+              ? document.getElementById("perp_rel").value
+              : undefined,
+            perpetrator_age_group: sexual
+              ? document.getElementById("perp_age").value
+              : undefined,
+            perpetrator_present_at_hospital: sexual
+              ? document.getElementById("perp_at_hosp").checked
+              : undefined,
+          },
+          pregnancy: {
+            pregnancy_confirmed: preg,
+            gestational_age_weeks: preg
+              ? parseInt(document.getElementById("gest_weeks").value) || null
+              : undefined,
+            pregnancy_origin: preg
+              ? document.getElementById("preg_origin").value
+              : undefined,
+            mtp_requested: preg
+              ? document.getElementById("mtp_req").checked
+              : undefined,
+          },
+          legal_status: {
+            fir_filed: document.getElementById("fir_filed").checked,
+            police_notified: document.getElementById("police_notified").checked,
+            case_brought_by: getToggleVal("case_brought_by_group") || "self",
+          },
+          consent_and_guardianship: {
+            patient_consents_examination:
+              document.getElementById("cons_exam").checked,
+            patient_consents_police_intimation:
+              document.getElementById("cons_police").checked,
+            patient_consents_parental_notification:
+              document.getElementById("cons_parent").checked,
+            guardian_present: guardPresent,
+            guardian_relationship: guardPresent
+              ? document.getElementById("guardian_rel").value
+              : undefined,
+          },
+          case_flags: {
+            dowry_context_suspected:
+              document.getElementById("flag_dowry").checked,
+            death_or_near_death: document.getElementById("flag_death").checked,
+            notifiable_disease_suspected:
+              document.getElementById("flag_disease").checked,
+          },
+          treating_doctor: {
+            mci_registration_number: document
+              .getElementById("mci_no")
+              .value.trim()
+              .toUpperCase(),
+            hospital_type:
+              document.getElementById("hospital_type").value || "government",
+            first_medical_contact:
+              document.getElementById("first_contact").checked,
+          },
+          // For the /api/analyze endpoint (simpler schema)
+          patient_age: parseInt(document.getElementById("patient_age").value),
+          case_type: getMultiToggleVals("injury_types_group")[0] || "assault",
+          gender: document.getElementById("sex_at_birth").value,
+          symptoms: document.getElementById("symptoms").value.trim(),
+        };
+      }
 
-function closeStats() {
-  document.getElementById('statsModal').classList.remove('show');
-}
+      /* ── Submit ── */
+      async function submitCase() {
+        hideFormError();
 
-async function fetchStats() {
-  const el = document.getElementById('statsContent');
-  try {
-    const res = await fetch(API_BASE + '/api/stats');
-    if (!res.ok) throw new Error('Server error');
-    const data = await res.json();
-    el.innerHTML = Object.entries(data).map(([k, v]) =>
-      `<div class="stat-row"><span class="stat-label">${k.replace(/_/g,' ')}</span><span class="stat-val">${v}</span></div>`
-    ).join('');
-  } catch {
-    el.innerHTML = '<div style="text-align:center;padding:1rem;font-size:0.82rem;color:var(--muted);">Could not connect to API. Is the server running on <code>localhost:8000</code>?</div>';
-  }
-}
+        if (!validate()) {
+          showFormError(
+            "Please fill in all required fields. Check all 4 steps.",
+          );
+          return;
+        }
 
-document.getElementById('statsModal').addEventListener('click', function(e) {
-  if (e.target === this) closeStats();
-});
+        const btn = document.getElementById("analyzeBtn");
+        btn.disabled = true;
+        btn.classList.add("loading");
+        btn.classList.remove("pulse-active");
 
-/* ── Validation ── */
-function validate() {
-  let ok = true;
+        const payload = buildPayload();
 
-  const caseRef = document.getElementById('case_ref').value.trim();
-  const caseRefErr = document.getElementById('err_case_ref');
-  if (!caseRef || !/^[A-Z0-9\-]+$/.test(caseRef)) {
-    caseRefErr.classList.add('show'); ok = false;
-  } else { caseRefErr.classList.remove('show'); }
+        try {
+          const res = await fetch(API_BASE + "/api/analyze", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload), // ← send the full payload
+          });
 
-  const age = document.getElementById('patient_age').value;
-  if (!age || age < 0 || age > 120) { ok = false; }
+          if (!res.ok) {
+            const errBody = await res.json().catch(() => ({}));
+            throw new Error(
+              errBody.detail || `Server responded with ${res.status}`,
+            );
+          }
 
-  const hours = document.getElementById('hours_since_injury').value;
-  const hoursErr = document.getElementById('err_hours');
-  if (hours === '' || hours < 0 || hours > 720) {
-    hoursErr.classList.add('show'); ok = false;
-  } else { hoursErr.classList.remove('show'); }
+          const data = await res.json();
+          renderResults(data, payload.patient.age);
+        } catch (err) {
+          showFormError(
+            err.message ||
+              "Could not connect to the API. Ensure the server is running on localhost:8000.",
+          );
+          btn.disabled = false;
+          btn.classList.remove("loading");
+          btn.classList.add("pulse-active");
+        }
+      }
 
-  const mci = document.getElementById('mci_no').value.trim();
-  const mciErr = document.getElementById('err_mci');
-  if (!mci || !/^[A-Z]{1,3}[0-9]{4,8}$/.test(mci)) {
-    mciErr.classList.add('show'); ok = false;
-  } else { mciErr.classList.remove('show'); }
+      /* ── Render results ── */
+      function renderResults(data, age) {
+        const btn = document.getElementById("analyzeBtn");
+        btn.disabled = false;
+        btn.classList.remove("loading");
 
-  const symptoms = document.getElementById('symptoms').value.trim();
-  if (!symptoms) { ok = false; }
+        document.getElementById("resultsPlaceholder").style.display = "none";
+        document.getElementById("resultsPanel").classList.add("show");
 
-  if (getMultiToggleVals('injury_types_group').length === 0) { ok = false; }
+        document.getElementById("r_session").textContent =
+          data.session_id || "—";
+        document.getElementById("r_minor").textContent = data.is_minor
+          ? "Minor (< 18)"
+          : "Adult";
+        document.getElementById("r_minor").className =
+          "meta-value " + (data.is_minor ? "minor" : "adult");
+        document.getElementById("r_law_count").textContent = (
+          data.laws_retrieved || []
+        ).length;
 
-  return ok;
-}
+        document.getElementById("minorAlert").style.display = data.is_minor
+          ? "flex"
+          : "none";
 
-function showFormError(msg) {
-  const el = document.getElementById('formError');
-  document.getElementById('formErrorMsg').textContent = msg;
-  el.classList.add('show');
-}
+        renderConfidenceBadge(data.confidence_score);
 
-function hideFormError() {
-  document.getElementById('formError').classList.remove('show');
-}
+        const abstainEl = document.getElementById("abstainAlert");
+        const normalContentEl = document.getElementById("normalResultsContent");
+        if (data.abstained) {
+          document.getElementById("abstainAlertMsg").textContent =
+            data.abstain_reason ||
+            "Insufficient legal context retrieved to provide a safe answer.";
+          abstainEl.style.display = "flex";
+          normalContentEl.style.display = "none";
+        } else {
+          abstainEl.style.display = "none";
+          normalContentEl.style.display = "block";
 
-/* ── Build payload ── */
-function buildPayload() {
-  const sexual = document.getElementById('sexual_offense').checked;
-  const preg = document.getElementById('pregnancy').checked;
-  const guardPresent = document.getElementById('guardian_present').checked;
+          const lawsEl = document.getElementById("r_laws");
+          lawsEl.innerHTML = "";
+          (data.laws_retrieved || []).forEach((l) => {
+            const chip = document.createElement("span");
+            chip.className = "law-chip";
+            chip.textContent = l;
+            lawsEl.appendChild(chip);
+          });
 
-  return {
-    case_reference_number: document.getElementById('case_ref').value.trim().toUpperCase(),
-    patient: {
-      age: parseInt(document.getElementById('patient_age').value),
-      sex_at_birth: document.getElementById('sex_at_birth').value,
-      marital_status: document.getElementById('marital_status').value,
-      consent_capacity: getToggleVal('consent_capacity_group') || 'unknown'
-    },
-    injury: {
-      injury_types: getMultiToggleVals('injury_types_group'),
-      hours_since_injury: parseInt(document.getElementById('hours_since_injury').value),
-      injury_severity: document.getElementById('injury_severity').value || 'moderate'
-    },
-    sexual_offense: {
-      sexual_offense_suspected: sexual,
-      perpetrator_relationship: sexual ? document.getElementById('perp_rel').value : undefined,
-      perpetrator_age_group: sexual ? document.getElementById('perp_age').value : undefined,
-      perpetrator_present_at_hospital: sexual ? document.getElementById('perp_at_hosp').checked : undefined
-    },
-    pregnancy: {
-      pregnancy_confirmed: preg,
-      gestational_age_weeks: preg ? parseInt(document.getElementById('gest_weeks').value) || null : undefined,
-      pregnancy_origin: preg ? document.getElementById('preg_origin').value : undefined,
-      mtp_requested: preg ? document.getElementById('mtp_req').checked : undefined
-    },
-    legal_status: {
-      fir_filed: document.getElementById('fir_filed').checked,
-      police_notified: document.getElementById('police_notified').checked,
-      case_brought_by: getToggleVal('case_brought_by_group') || 'self'
-    },
-    consent_and_guardianship: {
-      patient_consents_examination: document.getElementById('cons_exam').checked,
-      patient_consents_police_intimation: document.getElementById('cons_police').checked,
-      patient_consents_parental_notification: document.getElementById('cons_parent').checked,
-      guardian_present: guardPresent,
-      guardian_relationship: guardPresent ? document.getElementById('guardian_rel').value : undefined
-    },
-    case_flags: {
-      dowry_context_suspected: document.getElementById('flag_dowry').checked,
-      death_or_near_death: document.getElementById('flag_death').checked,
-      notifiable_disease_suspected: document.getElementById('flag_disease').checked
-    },
-    treating_doctor: {
-      mci_registration_number: document.getElementById('mci_no').value.trim().toUpperCase(),
-      hospital_type: document.getElementById('hospital_type').value || 'government',
-      first_medical_contact: document.getElementById('first_contact').checked
-    },
-    // For the /api/analyze endpoint (simpler schema)
-    patient_age: parseInt(document.getElementById('patient_age').value),
-    case_type: getMultiToggleVals('injury_types_group')[0] || 'assault',
-    gender: document.getElementById('sex_at_birth').value,
-    symptoms: document.getElementById('symptoms').value.trim()
-  };
-}
+          const checklist = data.checklist || {};
+          renderChecklist(
+            "cl_legal",
+            checklist.legal_obligations || [],
+            "#92400E",
+          );
+          renderChecklist(
+            "cl_medical",
+            checklist.medical_actions || [],
+            "#065F46",
+          );
+          renderChecklist("cl_docs", checklist.documentation || [], "#3730A3");
+          renderChecklist(
+            "cl_inform",
+            checklist.whom_to_inform || [],
+            "#9D174D",
+          );
+        }
 
-/* ── Submit ── */
-async function submitCase() {
-  hideFormError();
+        document
+          .getElementById("resultsPanel")
+          .scrollIntoView({ behavior: "smooth", block: "start" });
+      }
 
-  if (!validate()) {
-    showFormError('Please fill in all required fields. Check all 4 steps.');
-    return;
-  }
+      /* Bands mirror config.py's CONFIDENCE_BAND_HIGH/MEDIUM — keep both in sync
+   manually if either changes; frontend.html is a static file, not templated
+   server-side, so there's no shared source of truth to enforce this automatically.
+   Measured from real retrieval: in-corpus queries score ~0.0315-0.0328 (RRF,
+   k=60, top chunk). This is NOT the same scale as config.py's CONFIDENCE_THRESHOLD,
+   which gates whether a checklist is generated at all — these bands are cosmetic
+   (badge color only), lower-stakes, and don't need the same verification bar. */
+      function renderConfidenceBadge(score) {
+        const el = document.getElementById("confidenceBadge");
+        const textEl = document.getElementById("confidenceBadgeText");
+        if (score === null || score === undefined) {
+          el.style.display = "none";
+          return;
+        }
+        const HIGH = 0.032,
+          MEDIUM = 0.031;
+        let band, label;
+        if (score >= HIGH) {
+          band = "high";
+          label = "High confidence";
+        } else if (score >= MEDIUM) {
+          band = "medium";
+          label = "Medium confidence";
+        } else {
+          band = "low";
+          label = "Low confidence";
+        }
 
-  const btn = document.getElementById('analyzeBtn');
-  btn.disabled = true;
-  btn.classList.add('loading');
-  btn.classList.remove('pulse-active');
+        el.className = "confidence-badge " + band;
+        textEl.textContent = `${label} · ${score.toFixed(4)}`;
+        el.style.display = "inline-flex";
+      }
 
-  const payload = buildPayload();
+      /* Parses the mandatory leading "[BNS Section 124]" / "[Clinical Best Practice]"
+   tag off a checklist item (see generator.py's SYSTEM_PROMPT) and returns
+   {tag, isClinical, text}. Falls back gracefully (tag: null) for any item that
+   doesn't match — e.g. generator.py's own JSON-parse-error fallback strings. */
+      function parseCitationTag(item) {
+        const match = /^\[(.+?)\]\s*(.*)$/s.exec(item);
+        if (!match) return { tag: null, isClinical: false, text: item };
+        const tag = match[1].trim();
+        return {
+          tag,
+          isClinical: tag.toLowerCase() === "clinical best practice",
+          text: match[2],
+        };
+      }
 
-try {
-    const res = await fetch(API_BASE + '/api/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)    // ← send the full payload
-    });
-
-    if (!res.ok) {
-      const errBody = await res.json().catch(() => ({}));
-      throw new Error(errBody.detail || `Server responded with ${res.status}`);
-    }
-
-    const data = await res.json();
-    renderResults(data, payload.patient.age);
-  } catch (err) {
-    showFormError(err.message || 'Could not connect to the API. Ensure the server is running on localhost:8000.');
-    btn.disabled = false;
-    btn.classList.remove('loading');
-    btn.classList.add('pulse-active');
-  }
-}
-
-/* ── Render results ── */
-function renderResults(data, age) {
-  const btn = document.getElementById('analyzeBtn');
-  btn.disabled = false;
-  btn.classList.remove('loading');
-
-  document.getElementById('resultsPlaceholder').style.display = 'none';
-  document.getElementById('resultsPanel').classList.add('show');
-
-  document.getElementById('r_session').textContent = data.session_id || '—';
-  document.getElementById('r_minor').textContent = data.is_minor ? 'Minor (< 18)' : 'Adult';
-  document.getElementById('r_minor').className = 'meta-value ' + (data.is_minor ? 'minor' : 'adult');
-  document.getElementById('r_law_count').textContent = (data.laws_retrieved || []).length;
-
-  if (data.is_minor) {
-    document.getElementById('minorAlert').style.display = 'flex';
-  }
-
-  const lawsEl = document.getElementById('r_laws');
-  lawsEl.innerHTML = '';
-  (data.laws_retrieved || []).forEach(l => {
-    const chip = document.createElement('span');
-    chip.className = 'law-chip';
-    chip.textContent = l;
-    lawsEl.appendChild(chip);
-  });
-
-  const checklist = data.checklist || {};
-  renderChecklist('cl_legal', checklist.legal_obligations || [], '#92400E');
-  renderChecklist('cl_medical', checklist.medical_actions || [], '#065F46');
-  renderChecklist('cl_docs', checklist.documentation || [], '#3730A3');
-  renderChecklist('cl_inform', checklist.whom_to_inform || [], '#9D174D');
-
-  document.getElementById('resultsPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function renderChecklist(containerId, items, color) {
-  const el = document.getElementById(containerId);
-  el.innerHTML = '';
-  if (!items.length) {
-    el.innerHTML = '<div style="font-size:0.78rem;color:var(--muted);padding:6px 0;">No specific items flagged.</div>';
-    return;
-  }
-  items.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'checklist-item';
-    div.innerHTML = `
+      function renderChecklist(containerId, items, color) {
+        const el = document.getElementById(containerId);
+        el.innerHTML = "";
+        if (!items.length) {
+          el.innerHTML =
+            '<div style="font-size:0.78rem;color:var(--muted);padding:6px 0;">No specific items flagged.</div>';
+          return;
+        }
+        items.forEach((item) => {
+          const { tag, isClinical, text } = parseCitationTag(item);
+          const tagHtml = tag
+            ? `<span class="citation-tag${isClinical ? " clinical" : ""}">${tag}</span>`
+            : "";
+          const div = document.createElement("div");
+          div.className = "checklist-item";
+          div.innerHTML = `
       <div class="check-icon" style="background:${color}15;">
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
-      <span>${item}</span>`;
-    el.appendChild(div);
-  });
-}
+      <span>${tagHtml}${text}</span>`;
+          el.appendChild(div);
+        });
+      }
 
-/* ── Reset ── */
-function resetForm() {
-  document.getElementById('resultsPlaceholder').style.display = 'flex';
-  document.getElementById('resultsPanel').classList.remove('show');
-  document.getElementById('minorAlert').style.display = 'none';
-  document.getElementById('analyzeBtn').classList.add('pulse-active');
-  goStep(1);
-  document.querySelector('form') && document.querySelector('form').reset();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-</script>
-
-</body>
+      /* ── Reset ── */
+      function resetForm() {
+        document.getElementById("resultsPlaceholder").style.display = "flex";
+        document.getElementById("resultsPanel").classList.remove("show");
+        document.getElementById("minorAlert").style.display = "none";
+        document.getElementById("abstainAlert").style.display = "none";
+        document.getElementById("confidenceBadge").style.display = "none";
+        document.getElementById("normalResultsContent").style.display = "block";
+        document.getElementById("analyzeBtn").classList.add("pulse-active");
+        goStep(1);
+        document.querySelector("form") &&
+          document.querySelector("form").reset();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    </script>
+  </body>
 </html>

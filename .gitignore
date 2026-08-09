@@ -17,7 +17,7 @@ medilex.db
 # Re-generate with: python scripts/build_database.py
 # Uncomment the line below if you prefer NOT to commit the
 # vector store (saves ~5 MB in git but requires rebuild):
-# chroma_db/
+#chroma_db/
 
 # ── IDE / OS ────────────────────────────────────────────
 .vscode/

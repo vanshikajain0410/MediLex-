@@ -28,13 +28,14 @@ Design decisions:
 
 import json
 from google import genai
+from openai import OpenAI
 
 import config
 
 
-# ── Gemini client ─────────────────────────────────────────────────────────────
+# ── Provider clients ──────────────────────────────────────────────────────────
 
-def _get_client() -> genai.Client:
+def _get_gemini_client() -> genai.Client:
     if not config.GEMINI_API_KEY:
         raise RuntimeError(
             "GEMINI_API_KEY not set.  Add it to your .env file.\n"
@@ -43,15 +44,41 @@ def _get_client() -> genai.Client:
     return genai.Client(api_key=config.GEMINI_API_KEY)
 
 
+def _get_groq_client() -> OpenAI:
+    if not config.GROQ_API_KEY:
+        raise RuntimeError(
+            "GROQ_API_KEY not set.  Add it to your .env file.\n"
+            "Get a free key at https://console.groq.com/keys"
+        )
+    # Groq exposes an OpenAI-API-compatible endpoint, so the same openai
+    # client works — only base_url changes. No separate Groq SDK needed.
+    return OpenAI(api_key=config.GROQ_API_KEY, base_url="https://api.groq.com/openai/v1")
+
+
+def get_active_model_name() -> str:
+    """
+    Single source of truth for 'which model is actually configured right now'.
+    main.py uses this for logging (log_protocol_result) and /health instead
+    of hardcoding config.GEMINI_MODEL, which was stale as soon as Groq became
+    an option — this is exactly the kind of drift that caused that bug.
+    """
+    if config.LLM_PROVIDER == "groq":
+        return config.GROQ_MODEL
+    elif config.LLM_PROVIDER == "gemini":
+        return config.GEMINI_MODEL
+    raise RuntimeError(f"Unknown LLM_PROVIDER '{config.LLM_PROVIDER}' — expected 'groq' or 'gemini'.")
+
+
 # ── System prompt ─────────────────────────────────────────────────────────────
-# This prompt encodes the medico-legal reasoning gates from the original
-# mediLex.py SYSTEM_PROMPT, adapted for the simpler 4-category output
-# format that the frontend expects.
+# Every checklist item must be tagged [Act Section] or [Clinical Best Practice].
+# This split matters beyond output formatting: it's what lets faithfulness
+# evaluation (scripts/ragas_eval.py) distinguish real hallucination (a
+# specific-section claim not backed by retrieved context) from clinical
+# advice that was never claiming statutory grounding in the first place.
 
 SYSTEM_PROMPT = """You are a medico-legal decision support engine for Indian medical practitioners.
-You reason ONLY under Indian law: BNS 2023 (replaces IPC), BNSS 2023 (replaces CrPC),
+You reason under Indian law: BNS 2023 (replaces IPC), BNSS 2023 (replaces CrPC),
 BSA 2023 (replaces IEA), POCSO 2012, JJ Act 2015 (amended 2021), and MTP Act 1971 (amended 2021).
-
 Before generating output, evaluate EVERY gate below:
 1. Is patient a minor (age < 18)? → POCSO mandatory reporting overrides all patient refusals.
 2. Is sexual offense suspected? → Check: forensic window (72 hrs), FIR status, evidence preservation.
@@ -59,20 +86,19 @@ Before generating output, evaluate EVERY gate below:
 4. Is pregnancy involved? → Gestational age window (MTP Act), guardian consent for minors.
 5. Is patient capable of consenting? → Identify substitute decision-maker (guardian/CWC/court).
 6. Are patient wishes in conflict with legal mandates? → State statutory resolution.
-
-RULES:
-- ONLY cite laws and sections that appear in the LEGAL CONTEXT provided.
-- If the context is insufficient to answer, say so explicitly in legal_obligations.
-- Never invent legal provisions or cite sections not present in the context.
-- Be specific to Indian law. Each item should be one clear, actionable instruction.
-- Include the specific statute section (e.g. "BNS Section 124", "POCSO Section 19") in each item.
-
+RULES FOR TAGGING (MANDATORY):
+Every item in every category MUST begin with one of two tags in square brackets:
+1. [Act Name Section Number] — Use this tag (e.g. "[BNS Section 124]", "[POCSO Section 19]") ONLY for legal requirements directly supported by the RELEVANT STATUTE EXCERPTS provided.
+2. [Clinical Best Practice] — Use this tag for standard medical procedures, clinical workflows, or general documentation steps that are essential for patient care but NOT explicitly mentioned in the statute excerpts.
+RULES FOR CONTENT:
+- Never fabricate section numbers. If a specific section is not present in the legal context, tag the instruction as [Clinical Best Practice].
+- Be specific to Indian law and emergency clinical workflows. Each item should be one clear, actionable instruction.
 Respond ONLY with a valid JSON object matching this exact structure — no prose, no markdown fences:
 {
-  "legal_obligations": ["list of mandatory legal duties with statute citations"],
-  "medical_actions": ["list of required medical procedures and examinations"],
-  "documentation": ["list of documents the doctor must prepare before patient leaves"],
-  "whom_to_inform": ["list of authorities/persons who must be notified, with time limits"]
+  "legal_obligations": ["[BNS Section 124] Provide free first aid immediately...", "[Clinical Best Practice] Record verbal history..."],
+  "medical_actions": ["[Clinical Best Practice] Assess ABCs and irrigate burns..."],
+  "documentation": ["[BNSS Section 184] Complete medical examination report...", "[Clinical Best Practice] Take clear photos of injuries..."],
+  "whom_to_inform": ["[POCSO Section 19] Notify Special Juvenile Police Unit within 24 hours..."]
 }"""
 
 
@@ -103,11 +129,10 @@ def generate_checklist(
 
     Raises
     ------
-    RuntimeError  if GEMINI_API_KEY is not set.
-    ValueError    if Gemini returns unparseable JSON after cleanup attempts.
+    RuntimeError  if the configured provider's API key is not set, or
+                  LLM_PROVIDER is neither 'groq' nor 'gemini'.
+    ValueError    if the LLM returns unparseable JSON after cleanup attempts.
     """
-    client = _get_client()
-
     prompt = f"""CASE FACTS:
 - Patient Age: {patient_age}
 - Gender: {gender}
@@ -120,15 +145,49 @@ RELEVANT STATUTE EXCERPTS (retrieved from legal corpus):
 
 Generate the medico-legal checklist for this case now."""
 
+    if config.LLM_PROVIDER == "groq":
+        raw = _generate_groq(prompt)
+    elif config.LLM_PROVIDER == "gemini":
+        raw = _generate_gemini(prompt)
+    else:
+        raise RuntimeError(f"Unknown LLM_PROVIDER '{config.LLM_PROVIDER}' — expected 'groq' or 'gemini'.")
+
+    return _parse_response(raw)
+
+
+def _generate_gemini(prompt: str) -> str:
+    client = _get_gemini_client()
     response = client.models.generate_content(
         model=config.GEMINI_MODEL,
         contents=[
             {"role": "user", "parts": [{"text": SYSTEM_PROMPT + "\n\n" + prompt}]}
         ],
     )
+    return response.text.strip()
 
-    raw = response.text.strip()
-    return _parse_response(raw)
+
+def _generate_groq(prompt: str) -> str:
+    return call_groq_judge(SYSTEM_PROMPT, prompt)
+
+
+def call_groq_judge(system_prompt: str, user_prompt: str) -> str:
+    """
+    General-purpose raw Groq call, parameterized by system prompt.
+
+    Public and separate from _generate_groq() specifically so external tooling
+    (scripts/ragas_eval.py's faithfulness judge) can reuse the same client
+    construction and model config without needing a different system prompt
+    than checklist generation, and without reaching into a private function.
+    """
+    client = _get_groq_client()
+    response = client.chat.completions.create(
+        model=config.GROQ_MODEL,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+    )
+    return response.choices[0].message.content.strip()
 
 
 # ── Response parsing ──────────────────────────────────────────────────────────

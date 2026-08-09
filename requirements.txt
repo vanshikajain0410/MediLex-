@@ -1,5 +1,4 @@
 # MediLex India — Python dependencies
-#
 # Install: pip install -r requirements.txt
 
 # ── Web framework ─────────────────────────────────────────────────
@@ -10,9 +9,11 @@ pydantic>=2.0
 # ── RAG: vector store + embeddings ────────────────────────────────
 chromadb>=0.4.22,<0.6.0
 sentence-transformers>=2.2.2,<3.0.0
+rank-bm25>=0.2.2            # sparse (BM25) half of hybrid retrieval
 
-# ── LLM: Gemini (free tier) ──────────────────────────────────────
-google-genai>=1.0.0
+# ── LLM providers (install both; only one is used at runtime) ─────
+openai>=1.30.0          # used by Groq backend (OpenAI-compatible API)
+google-genai>=1.0.0     # used by Gemini backend
 
 # ── Config ────────────────────────────────────────────────────────
 python-dotenv>=1.0.0

@@ -1,0 +1,21 @@
+# ── Secrets — never ship these in the image ─────────────
+.env
+
+# ── Local dev artifacts ──────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
+.git/
+.gitignore
+
+# ── Local runtime data — rebuilt/regenerated in the image ──
+medilex.db
+chroma_db/
+
+# ── IDE / OS ──────────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

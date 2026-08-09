@@ -28,13 +28,13 @@ from collections import defaultdict
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 
 import config
 from schema import CaseInput
 from database import init_db, log_session, log_protocol_result, log_error, get_stats
 from rag.retriever import get_retriever
-from rag.generator import generate_checklist
+from rag.generator import generate_checklist, get_active_model_name
 
 
 # ── App ───────────────────────────────────────────────────────────────────────
@@ -100,7 +100,8 @@ def _check_rate_limit(client_ip: str) -> str | None:
 @app.on_event("startup")
 def startup():
     init_db()
-    get_retriever()  # warm up embeddings + ChromaDB (~5–10 s first time)
+    retriever = get_retriever()  # warm up embeddings + ChromaDB (~5–10 s first time)
+    retriever.warm_bm25_index()  # build BM25 now too, not on the first hybrid request
     print("✅ MediLex server ready.")
 
 
@@ -113,7 +114,8 @@ async def analyze_case(data: CaseInput, request: Request):
 
     Flow:
       1. Rate-limit check
-      2. Retrieve relevant statute chunks from ChromaDB
+      2. Retrieve relevant statute chunks (hybrid: BM25 + dense, RRF-fused)
+      2.5. Confidence gate — abstain if the best match is too weak (see config.CONFIDENCE_THRESHOLD)
       3. Generate structured checklist via Gemini
       4. Log session + result to SQLite
       5. Return checklist to frontend
@@ -128,13 +130,26 @@ async def analyze_case(data: CaseInput, request: Request):
     start_time = time.time()
 
     try:
-        # STEP 1 — Retrieve statute chunks
+        # STEP 1 — Retrieve statute chunks (hybrid: BM25 + dense, fused via RRF)
+        # MEASURED (scripts/benchmark.py --eval): hybrid beats dense-only
+        # Recall@5 0.816→0.863, matching MRR. Reranker measured net-negative
+        # on this corpus (0.863→0.835 Recall@5) — gated behind
+        # config.ENABLE_RERANKER (default False) rather than hardcoded off,
+        # so re-enabling it later (a validated/fine-tuned reranker) is an
+        # env change, not a code change.
         retriever = get_retriever()
-        rag_result = retriever.retrieve(
-            case_type=data.case_type,
-            symptoms=data.symptoms,
-            patient_age=data.patient_age,
-        )
+        if config.ENABLE_RERANKER:
+            rag_result = retriever.retrieve_hybrid_reranked(
+                case_type=data.case_type,
+                symptoms=data.symptoms,
+                patient_age=data.patient_age,
+            )
+        else:
+            rag_result = retriever.retrieve_hybrid(
+                case_type=data.case_type,
+                symptoms=data.symptoms,
+                patient_age=data.patient_age,
+            )
 
         # STEP 2 — Log session metadata (no PII)
         context = {
@@ -152,7 +167,46 @@ async def analyze_case(data: CaseInput, request: Request):
             laws_retrieved=rag_result["laws_retrieved"],
         )
 
-        # STEP 3 — Generate checklist via Gemini
+        # STEP 2.5 — Confidence gate
+        # Uses the top retrieved chunk's score. Prefers rerank_score if present
+        # (only set when retrieve_hybrid_reranked() is in use) over relevance_score
+        # (dense cosine similarity, ~0-1) — these are DIFFERENT SCALES. If this
+        # endpoint is ever switched to hybrid/reranked retrieval, CONFIDENCE_THRESHOLD
+        # must be recalibrated: a cross-encoder logit and a cosine similarity are not
+        # interchangeable numbers. Default threshold is 0.0 (disabled, everything
+        # passes) until a real value is set from evidence — see config.py.
+        top_chunk = rag_result["chunks"][0] if rag_result["chunks"] else None
+        if top_chunk is None:
+            confidence_score = 0.0
+        elif "rerank_score" in top_chunk:
+            confidence_score = top_chunk["rerank_score"]
+        else:
+            confidence_score = top_chunk["relevance_score"]
+
+        if confidence_score < config.CONFIDENCE_THRESHOLD:
+            abstain_reason = (
+                f"Best matching legal context scored {confidence_score:.3f}, "
+                f"below the configured confidence threshold ({config.CONFIDENCE_THRESHOLD}). "
+                "Returning without a generated checklist rather than answering from "
+                "weak legal grounding — please rephrase with more specific case details."
+            )
+            log_protocol_result(
+                session_id=session_id,
+                protocol={"abstained": True, "reason": abstain_reason, "top_score": confidence_score},
+                ai_model="none (abstained)",
+                response_time_ms=int((time.time() - start_time) * 1000),
+            )
+            return {
+                "session_id": session_id,
+                "is_minor": rag_result["is_minor"],
+                "laws_retrieved": rag_result["laws_retrieved"],
+                "checklist": None,
+                "abstained": True,
+                "abstain_reason": abstain_reason,
+                "confidence_score": confidence_score,
+            }
+
+        # STEP 3 — Generate checklist (provider dispatched by config.LLM_PROVIDER)
         checklist = generate_checklist(
             patient_age=data.patient_age,
             gender=data.gender,
@@ -166,7 +220,7 @@ async def analyze_case(data: CaseInput, request: Request):
         log_protocol_result(
             session_id=session_id,
             protocol=checklist,
-            ai_model=config.GEMINI_MODEL,
+            ai_model=get_active_model_name(),
             response_time_ms=response_ms,
         )
 
@@ -176,6 +230,8 @@ async def analyze_case(data: CaseInput, request: Request):
             "is_minor": rag_result["is_minor"],
             "laws_retrieved": rag_result["laws_retrieved"],
             "checklist": checklist,
+            "abstained": False,
+            "confidence_score": confidence_score,
         }
 
     except HTTPException:
@@ -199,6 +255,19 @@ def stats():
 
 # ── Health check ──────────────────────────────────────────────────────────────
 
+# ── Frontend ──────────────────────────────────────────────────────────────────
+
+@app.get("/")
+def root():
+    """
+    Serves the demo UI directly, so a deployed instance (Docker/HF Spaces/
+    Render) shows the actual app at its URL, not just Swagger docs at /docs.
+    Local dev can still open frontend.html directly as a file — see the
+    protocol-aware API_BASE in frontend.html for why both paths work.
+    """
+    return FileResponse("frontend.html")
+
+
 @app.get("/health")
 def health():
     """Simple health check for deployment probes."""
@@ -206,7 +275,7 @@ def health():
     return {
         "status": "ok",
         "chunks_loaded": retriever.collection.count(),
-        "model": config.GEMINI_MODEL,
+        "model": get_active_model_name(),
     }
 
 

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MediLex — Dev Panel</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0f1117;
+    --bg2:      #1a1d27;
+    --bg3:      #22263a;
+    --border:   #2e3250;
+    --text:     #e8eaf0;
+    --muted:    #7b82a8;
+    --green:    #4ade80;
+    --green-bg: #052e16;
+    --red:      #f87171;
+    --red-bg:   #1f0b0b;
+    --yellow:   #fbbf24;
+    --blue:     #60a5fa;
+    --purple:   #a78bfa;
+    --mono:     'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+  .subtitle { font-size: 0.78rem; color: var(--muted); margin-bottom: 1.5rem; }
+
+  /* ── Layout ── */
+  .grid { display: grid; grid-template-columns: 340px 1fr; gap: 1.25rem; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .card-title {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  /* ── Status bar ── */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding: 0.6rem 0.875rem;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.8rem;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot.green  { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .dot.red    { background: var(--red); }
+  .dot.yellow { background: var(--yellow); animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  /* ── Preset list ── */
+  .preset {
+    padding: 0.6rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  .preset:hover { background: var(--bg3); border-color: var(--blue); }
+  .preset.active { background: var(--bg3); border-color: var(--purple); }
+  .preset-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 0.2rem;
+  }
+  .preset-meta {
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+  .badge {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  .badge.minor   { background: #4c1d95; color: #c4b5fd; }
+  .badge.adult   { background: #1e3a5f; color: #93c5fd; }
+  .badge.female  { background: #831843; color: #f9a8d4; }
+  .badge.male    { background: #1e3a5f; color: #93c5fd; }
+
+  /* ── Editor ── */
+  .editor-area {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+  label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+  }
+  input, select, textarea {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.82rem;
+    padding: 0.45rem 0.65rem;
+    outline: none;
+    transition: border-color .15s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--purple); }
+  textarea { resize: vertical; min-height: 72px; font-size: 0.8rem; }
+  select option { background: var(--bg3); }
+
+  /* ── Buttons ── */
+  .btn-row { display: flex; gap: 0.6rem; margin-top: 0.25rem; }
+  button {
+    padding: 0.55rem 1.1rem;
+    border-radius: 5px;
+    border: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity .15s, transform .1s;
+  }
+  button:active { transform: scale(.97); }
+  button:disabled { opacity: .4; cursor: not-allowed; }
+  .btn-run    { background: var(--purple); color: #fff; }
+  .btn-clear  { background: var(--bg3); color: var(--muted); border: 1px solid var(--border); }
+  .btn-copy   { background: var(--bg3); color: var(--muted); border: 1px solid var(--border); font-size: 0.75rem; }
+
+  /* ── Response panel ── */
+  .response-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  .meta-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .pill {
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    border: 1px solid;
+  }
+  .pill.ok    { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+  .pill.err   { color: var(--red);   border-color: var(--red);   background: var(--red-bg); }
+  .pill.rate  { color: var(--yellow); border-color: var(--yellow); background: #1c1200; }
+  .pill.law   { color: var(--blue);  border-color: #1e3a5f; background: #0c1a2e; }
+  .pill.minor { color: #c4b5fd; border-color: #4c1d95; background: #1a0b3b; }
+  .pill.time  { color: var(--muted); border-color: var(--border); background: var(--bg3); }
+
+  /* ── Checklist sections ── */
+  .section-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem; }
+  .section-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem;
+  }
+  .section-title {
+    font-size: 0.67rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 0.5rem;
+  }
+  .s-legal   .section-title { color: #fca5a5; }
+  .s-medical .section-title { color: #6ee7b7; }
+  .s-docs    .section-title { color: #93c5fd; }
+  .s-inform  .section-title { color: #f9a8d4; }
+
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: #cbd5e1;
+    margin-bottom: 0.4rem;
+  }
+  .item:last-child { margin-bottom: 0; }
+  .item::before { content: '›'; color: var(--muted); flex-shrink: 0; margin-top: 1px; }
+
+  /* ── Raw JSON ── */
+  .raw-block {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem;
+  }
+  pre {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: #94a3b8;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+
+  /* ── Placeholder ── */
+  .placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  .placeholder .icon { font-size: 2rem; }
+
+  /* ── Health strip ── */
+  .health-strip {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .health-strip span { display: flex; align-items: center; gap: 0.3rem; }
+</style>
+</head>
+<body>
+
+<h1>MediLex — Developer Test Panel</h1>
+<p class="subtitle">One-click preset cases · Live API calls · Raw response viewer &nbsp;·&nbsp; <strong style="color:var(--yellow)">Not for clinical use</strong></p>
+
+<!-- Status bar -->
+<div class="status-bar">
+  <div class="dot yellow" id="statusDot"></div>
+  <span id="statusText" style="color:var(--muted)">Checking server…</span>
+  <span style="margin-left:auto;" class="health-strip">
+    <span id="healthChunks">— chunks</span>
+    <span id="healthModel">—</span>
+  </span>
+</div>
+
+<div class="grid">
+
+  <!-- LEFT: Presets + editor -->
+  <div>
+    <div class="card" style="margin-bottom:1rem;">
+      <div class="card-title">Preset cases</div>
+      <div id="presetList"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Edit & run</div>
+      <div class="editor-area">
+        <div class="field-row">
+          <div>
+            <label>Patient age</label>
+            <input type="number" id="f_age" value="14" min="0" max="120" />
+          </div>
+          <div>
+            <label>Gender</label>
+            <select id="f_gender">
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+              <option value="intersex">Intersex</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label>Case type</label>
+          <select id="f_case_type">
+            <option value="pocso">pocso</option>
+            <option value="sexual_assault">sexual_assault</option>
+            <option value="acid_burn">acid_burn</option>
+            <option value="pregnancy_termination">pregnancy_termination</option>
+            <option value="road_accident">road_accident</option>
+            <option value="death">death</option>
+            <option value="physical_assault">physical_assault</option>
+            <option value="domestic_violence">domestic_violence</option>
+            <option value="poisoning">poisoning</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Symptoms / clinical context</label>
+          <textarea id="f_symptoms">Bruising on arms and thighs, distress, patient disclosed assault by a neighbor. Brought by mother.</textarea>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-run" id="runBtn" onclick="runCase()">▶ Run</button>
+          <button class="btn-clear" onclick="clearResponse()">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Response -->
+  <div id="responsePanel">
+    <div class="placeholder">
+      <div class="icon">⚡</div>
+      <div>Select a preset or fill the form and click <strong>Run</strong></div>
+      <div style="font-size:0.72rem;">API: <code id="apiUrlHint" style="color:var(--blue)">http://localhost:8000</code></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const API_BASE = 'http://localhost:8000';
+document.getElementById('apiUrlHint').textContent = API_BASE;
+
+// ── Preset case definitions ───────────────────────────────────────────────────
+// These cover every supported case_type so you can verify the full pipeline
+// without touching the form.
+
+const PRESETS = [
+  {
+    label: 'POCSO — Minor sexual assault',
+    age: 14, gender: 'female', case_type: 'pocso',
+    symptoms: 'Bruising on arms and thighs, emotional distress. Patient disclosed sexual assault by a neighbour. Brought by mother.',
+    tags: ['minor', 'female'],
+  },
+  {
+    label: 'Sexual assault — Adult rape victim',
+    age: 24, gender: 'female', case_type: 'sexual_assault',
+    symptoms: 'Patient presented within 36 hours of alleged rape. Physical injuries to genital area. Police brought patient. FIR not yet filed.',
+    tags: ['adult', 'female'],
+  },
+  {
+    label: 'Acid burn — Face and neck',
+    age: 22, gender: 'female', case_type: 'acid_burn',
+    symptoms: 'Severe acid burns covering face, neck and upper chest. Corrosive substance (suspected sulphuric acid). Victim refused initial first aid elsewhere.',
+    tags: ['adult', 'female'],
+  },
+  {
+    label: 'MTP — Rape survivor, 18 weeks',
+    age: 19, gender: 'female', case_type: 'pregnancy_termination',
+    symptoms: 'Pregnancy of 18 weeks confirmed. Patient disclosed rape by acquaintance. No FIR filed. Requests termination.',
+    tags: ['adult', 'female'],
+  },
+  {
+    label: 'Road accident — Unconscious patient',
+    age: 35, gender: 'male', case_type: 'road_accident',
+    symptoms: 'Head injury, unconscious, brought by bystanders from roadside. No identification on patient. No FIR. Suspected hit-and-run.',
+    tags: ['adult', 'male'],
+  },
+  {
+    label: 'Unnatural death — Suspicious',
+    age: 28, gender: 'female', case_type: 'death',
+    symptoms: 'Patient brought dead to casualty. Ligature marks on neck. Husband claims suicide. Family suspects foul play. Police present.',
+    tags: ['adult', 'female'],
+  },
+  {
+    label: 'Domestic violence — Grievous hurt',
+    age: 31, gender: 'female', case_type: 'domestic_violence',
+    symptoms: 'Multiple fractures (ribs, left radius). Patient alleges husband assaulted her. Married 3 years. Does not want police involved.',
+    tags: ['adult', 'female'],
+  },
+  {
+    label: 'Physical assault — Grievous hurt',
+    age: 40, gender: 'male', case_type: 'physical_assault',
+    symptoms: 'Deep laceration over scalp, suspected skull fracture. Alleged assault with iron rod during property dispute. Brought by friend.',
+    tags: ['adult', 'male'],
+  },
+  {
+    label: 'Poisoning — Unknown substance',
+    age: 17, gender: 'male', case_type: 'poisoning',
+    symptoms: 'Vomiting, altered consciousness. Parents found empty bottle. Suspected organophosphate ingestion. Minor brought without police.',
+    tags: ['minor', 'male'],
+  },
+];
+
+// ── Render presets ────────────────────────────────────────────────────────────
+function renderPresets() {
+  const list = document.getElementById('presetList');
+  PRESETS.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.className = 'preset';
+    div.id = `preset-${i}`;
+    const badgeHTML = p.tags.map(t => `<span class="badge ${t}">${t}</span>`).join('');
+    div.innerHTML = `
+      <div class="preset-label">${p.label}</div>
+      <div class="preset-meta">${badgeHTML} age ${p.age} · ${p.case_type}</div>`;
+    div.onclick = () => loadPreset(i);
+    list.appendChild(div);
+  });
+}
+
+function loadPreset(i) {
+  const p = PRESETS[i];
+  document.getElementById('f_age').value = p.age;
+  document.getElementById('f_gender').value = p.gender;
+  document.getElementById('f_case_type').value = p.case_type;
+  document.getElementById('f_symptoms').value = p.symptoms;
+
+  document.querySelectorAll('.preset').forEach(el => el.classList.remove('active'));
+  document.getElementById(`preset-${i}`).classList.add('active');
+
+  runCase();  // auto-run on click
+}
+
+// ── Run a case ────────────────────────────────────────────────────────────────
+async function runCase() {
+  const btn = document.getElementById('runBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Running…';
+
+  const payload = {
+    patient_age: parseInt(document.getElementById('f_age').value),
+    gender:      document.getElementById('f_gender').value,
+    case_type:   document.getElementById('f_case_type').value,
+    symptoms:    document.getElementById('f_symptoms').value.trim(),
+  };
+
+  const t0 = Date.now();
+
+  try {
+    const res = await fetch(`${API_BASE}/api/analyze`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    const elapsed = Date.now() - t0;
+    const data = await res.json();
+
+    if (!res.ok) {
+      renderError(res.status, data.detail || JSON.stringify(data), elapsed);
+    } else {
+      renderSuccess(payload, data, elapsed);
+    }
+  } catch (err) {
+    renderError(0, `Cannot reach ${API_BASE}. Is the server running?`, Date.now() - t0);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '▶ Run';
+  }
+}
+
+// ── Render success ────────────────────────────────────────────────────────────
+function renderSuccess(payload, data, elapsed) {
+  const panel = document.getElementById('responsePanel');
+  const cl = data.checklist || {};
+  const laws = data.laws_retrieved || [];
+
+  const lawPills = laws.map(l =>
+    `<span class="pill law">${l}</span>`).join('');
+  const minorPill = data.is_minor
+    ? `<span class="pill minor">⚠ Minor</span>` : '';
+  const statusPill = `<span class="pill ok">200 OK</span>`;
+  const timePill   = `<span class="pill time">${elapsed} ms</span>`;
+  const sessionPill= `<span class="pill time">session #${data.session_id}</span>`;
+
+  panel.innerHTML = `
+    <div class="card">
+      <div class="response-header">
+        <div class="meta-pills">
+          ${statusPill}${minorPill}${timePill}${sessionPill}
+          ${lawPills}
+        </div>
+        <button class="btn-copy" onclick="copyJSON()">Copy JSON</button>
+      </div>
+
+      <div class="section-grid">
+        ${section('Legal obligations', cl.legal_obligations, 's-legal')}
+        ${section('Medical actions',   cl.medical_actions,   's-medical')}
+        ${section('Documentation',     cl.documentation,     's-docs')}
+        ${section('Whom to inform',    cl.whom_to_inform,    's-inform')}
+      </div>
+
+      <div class="raw-block">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+          <span style="font-size:0.68rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em">Raw response</span>
+        </div>
+        <pre id="rawJSON">${escapeHTML(JSON.stringify(data, null, 2))}</pre>
+      </div>
+    </div>`;
+}
+
+function section(title, items, cls) {
+  const rows = (items || []).length
+    ? (items || []).map(i => `<div class="item">${escapeHTML(i)}</div>`).join('')
+    : `<div class="item" style="color:var(--muted)">—</div>`;
+  return `
+    <div class="section-box ${cls}">
+      <div class="section-title">${title}</div>
+      ${rows}
+    </div>`;
+}
+
+// ── Render error ──────────────────────────────────────────────────────────────
+function renderError(status, detail, elapsed) {
+  const panel = document.getElementById('responsePanel');
+  const pillClass = status === 429 ? 'rate' : 'err';
+  const label     = status === 0   ? 'Connection refused'
+                  : status === 429 ? '429 Rate limited'
+                  : `${status} Error`;
+  panel.innerHTML = `
+    <div class="card">
+      <div class="response-header">
+        <div class="meta-pills">
+          <span class="pill ${pillClass}">${label}</span>
+          <span class="pill time">${elapsed} ms</span>
+        </div>
+      </div>
+      <div class="raw-block" style="border-color:#7f1d1d;">
+        <pre style="color:var(--red)">${escapeHTML(detail)}</pre>
+      </div>
+    </div>`;
+}
+
+// ── Clear ─────────────────────────────────────────────────────────────────────
+function clearResponse() {
+  document.getElementById('responsePanel').innerHTML = `
+    <div class="placeholder">
+      <div class="icon">⚡</div>
+      <div>Select a preset or fill the form and click <strong>Run</strong></div>
+    </div>`;
+  document.querySelectorAll('.preset').forEach(el => el.classList.remove('active'));
+}
+
+// ── Copy JSON ─────────────────────────────────────────────────────────────────
+function copyJSON() {
+  const el = document.getElementById('rawJSON');
+  if (!el) return;
+  navigator.clipboard.writeText(el.textContent).then(() => {
+    const btn = document.querySelector('.btn-copy');
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy JSON', 1500); }
+  });
+}
+
+// ── Health check ──────────────────────────────────────────────────────────────
+async function checkHealth() {
+  const dot  = document.getElementById('statusDot');
+  const text = document.getElementById('statusText');
+  try {
+    const res  = await fetch(`${API_BASE}/health`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    dot.className = 'dot green';
+    text.textContent = `Server online — ${API_BASE}`;
+    text.style.color = 'var(--green)';
+    document.getElementById('healthChunks').textContent = `${data.chunks_loaded} chunks`;
+    document.getElementById('healthModel').textContent  = data.model;
+  } catch {
+    dot.className = 'dot red';
+    text.textContent = `Server offline — start with: python main.py`;
+    text.style.color = 'var(--red)';
+  }
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function escapeHTML(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+renderPresets();
+checkHealth();
+setInterval(checkHealth, 10000);  // re-check every 10 s
+</script>
+</body>
+</html>
