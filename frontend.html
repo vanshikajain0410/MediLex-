@@ -1004,7 +1004,7 @@
             >India</span
           ></span
         >
-        <span class="header-badge">Beta</span>
+        <span class="header-badge">v1.0</span>
       </div>
       <div class="header-right">
         <div class="stats-pill" onclick="openStats()">
@@ -1053,8 +1053,9 @@
           powered by RAG over Indian statute law.
         </p>
         <div class="law-tags">
-          <span class="law-tag">IPC</span>
-          <span class="law-tag">CrPC</span>
+          <span class="law-tag">BNS</span>
+          <span class="law-tag">BNSS</span>
+          <span class="law-tag">BSA</span>
           <span class="law-tag">POCSO</span>
           <span class="law-tag">MTP Act</span>
           <span class="law-tag">JJ Act</span>
@@ -1592,7 +1593,7 @@
                     <span
                       >Dowry context suspected?
                       <span style="color: var(--muted); font-size: 0.74rem"
-                        >(IPC 498A / 304B)</span
+                        >(BNS 85 / 80)</span
                       ></span
                     >
                     <label class="switch"
@@ -1605,7 +1606,7 @@
                     <span
                       >Death or near-death?
                       <span style="color: var(--muted); font-size: 0.74rem"
-                        >(CrPC 174)</span
+                        >(BNSS 194)</span
                       ></span
                     >
                     <label class="switch"
@@ -2035,18 +2036,14 @@
       </div>
 
       <div class="bottom-info">
+        <p>MediLex India · Medico-Legal Protocol Engine</p>
         <p>
-          MediLex India · Medico-Legal Protocol Engine · Hackathon Build 2024
-        </p>
-        <p>
-          For Indian clinicians. No PII stored. Powered by RAG over IPC, CrPC,
-          POCSO, MTP Act, and JJ Act.
+          For Indian clinicians. No PII stored. Powered by RAG over BNS, BNSS,
+          BSA, POCSO, MTP Act, and JJ Act.
         </p>
         <p style="margin-top: 6px">
-          <a href="http://localhost:8000/docs" target="_blank"
-            >API Docs (Swagger)</a
-          >
-          · Built on FastAPI + ChromaDB + Claude Sonnet
+          <a href="/docs" target="_blank">API Docs (Swagger)</a>
+          · Built on FastAPI + ChromaDB + Groq (Llama 3.3)
         </p>
       </div>
     </div>
