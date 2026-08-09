@@ -1,13 +1,3 @@
----
-title: MediLex India
-emoji: ⚖️
-colorFrom: red
-colorTo: yellow
-sdk: docker
-app_port: 7860
-pinned: false
----
-
 # MediLex India 🏥⚖️
 
 **AI-powered medico-legal decision support for Indian doctors.**
@@ -192,14 +182,24 @@ python scripts/benchmark.py --eval              # Recall@5/MRR, 4-way ablation (
 
 ## Deployment
 
-`Dockerfile` builds a self-contained image — `chroma_db/` is gitignored, so it's rebuilt from `data/raw/*.txt` at **image build time**, not expected to already exist. Port is read from the `PORT` env var at runtime (defaults to 7860), so the same image works on Hugging Face Spaces (Docker SDK), Render, or Railway without modification.
+**Live:** https://YOUR-RENDER-URL.onrender.com _(replace with actual URL)_
+
+Deployed on [Render](https://render.com) (Docker runtime). `Dockerfile` builds a self-contained image — `chroma_db/` is gitignored, so it's rebuilt from `data/raw/*.txt` at **image build time**, not expected to already exist. Port is read from the `PORT` env var at runtime, which Render injects automatically — no manual port config needed on the platform. The same image is portable to Hugging Face Spaces (Docker SDK) or Railway without modification, though HF Spaces' Docker tier is no longer free, which is why Render is the current target.
+
+### Render setup
+
+1. New Web Service → connect this repo → runtime: **Docker** (auto-detected from `Dockerfile`).
+2. Set environment variables in the Render dashboard: `GROQ_API_KEY`, `LLM_PROVIDER=groq` (or `gemini` + `GEMINI_API_KEY`).
+3. No `PORT` variable needs to be set manually — Render provides it at runtime.
+
+**Note:** on Render's free tier, the service spins down after inactivity — expect a cold-start delay (10–50s) on the first request after idling. `medilex.db` (session logging) does not persist across restarts/redeploys on this tier — acceptable for a demo; use a paid tier with a persistent disk if session history needs to survive.
+
+### Local Docker (for testing before pushing)
 
 ```bash
 docker build -t medilex .
 docker run -p 8000:7860 -e PORT=7860 -e GROQ_API_KEY=your_key -e LLM_PROVIDER=groq medilex
 ```
-
-**Note:** this Dockerfile hasn't been build-tested in a live Docker environment — verify with a local `docker build` before pushing to a host.
 
 `medilex.db` (session logging) is not persisted across container restarts on a typical free-tier deploy — acceptable for a demo; mount a volume if session history needs to survive restarts.
 
